@@ -154,17 +154,58 @@ fun GraphCanvas(
 
         // --- Draw Curves ---
         for (equation in equations) {
-            val ast = equation.ast ?: continue
+            if (equation.error != null) continue
             val color = if (curveColors.isNotEmpty()) {
                 curveColors[equation.colorIndex % curveColors.size]
             } else {
                 Color.Red
             }
 
-            val points = CurveSampler.sample(ast, viewport, screenWidth, screenHeight)
-            if (points.isEmpty()) continue
-
-            drawCurve(points, color)
+            val eqType = equation.equationType
+            when (eqType) {
+                is com.prasad.mathgrapher.math.EquationType.Explicit -> {
+                    val ast = eqType.expr
+                    val points = CurveSampler.sample(ast, viewport, screenWidth, screenHeight)
+                    if (points.isNotEmpty()) drawCurve(points, color)
+                }
+                is com.prasad.mathgrapher.math.EquationType.Implicit -> {
+                    val segments = ImplicitSampler.sample(eqType.lhs, eqType.rhs, viewport, screenWidth, screenHeight)
+                    for (seg in segments) {
+                        drawLine(
+                            color = color,
+                            start = Offset(seg.x1, seg.y1),
+                            end = Offset(seg.x2, seg.y2),
+                            strokeWidth = 3.dp.toPx()
+                        )
+                    }
+                }
+                is com.prasad.mathgrapher.math.EquationType.Parametric -> {
+                    val points = ParametricSampler.sample(eqType.xExpr, eqType.yExpr, eqType.tMin, eqType.tMax, viewport, screenWidth, screenHeight)
+                    if (points.isNotEmpty()) drawCurve(points, color)
+                }
+                is com.prasad.mathgrapher.math.EquationType.Polar -> {
+                    val points = PolarSampler.sample(eqType.rExpr, eqType.thetaMin, eqType.thetaMax, viewport, screenWidth, screenHeight)
+                    if (points.isNotEmpty()) drawCurve(points, color)
+                }
+                is com.prasad.mathgrapher.math.EquationType.Inequality -> {
+                    // Draw the boundary curve as implicit
+                    val segments = ImplicitSampler.sample(eqType.lhs, eqType.rhs, viewport, screenWidth, screenHeight)
+                    for (seg in segments) {
+                        drawLine(
+                            color = color,
+                            start = Offset(seg.x1, seg.y1),
+                            end = Offset(seg.x2, seg.y2),
+                            strokeWidth = 2.dp.toPx()
+                        )
+                    }
+                }
+                null -> {
+                    // Fallback: try legacy ast field
+                    val ast = equation.ast ?: continue
+                    val points = CurveSampler.sample(ast, viewport, screenWidth, screenHeight)
+                    if (points.isNotEmpty()) drawCurve(points, color)
+                }
+            }
         }
 
         // --- Inspected Point ---

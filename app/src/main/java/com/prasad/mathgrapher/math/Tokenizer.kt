@@ -1,7 +1,7 @@
 package com.prasad.mathgrapher.math
 
 enum class TokenType {
-    NUMBER, IDENTIFIER, PLUS, MINUS, STAR, SLASH, CARET, PERCENT, LPAREN, RPAREN, COMMA, EOF
+    NUMBER, IDENTIFIER, PLUS, MINUS, STAR, SLASH, CARET, PERCENT, LPAREN, RPAREN, COMMA, EQUALS, LESS, GREATER, LESS_EQUAL, GREATER_EQUAL, EOF
 }
 
 data class Token(val type: TokenType, val value: String, val position: Int)
@@ -30,6 +30,23 @@ class Tokenizer(private val input: String) {
                 char == '(' -> tokens.add(Token(TokenType.LPAREN, "(", pos++))
                 char == ')' -> tokens.add(Token(TokenType.RPAREN, ")", pos++))
                 char == ',' -> tokens.add(Token(TokenType.COMMA, ",", pos++))
+                char == '=' -> tokens.add(Token(TokenType.EQUALS, "=", pos++))
+                char == '<' -> {
+                    if (pos + 1 < input.length && input[pos + 1] == '=') {
+                        tokens.add(Token(TokenType.LESS_EQUAL, "<=", pos))
+                        pos += 2
+                    } else {
+                        tokens.add(Token(TokenType.LESS, "<", pos++))
+                    }
+                }
+                char == '>' -> {
+                    if (pos + 1 < input.length && input[pos + 1] == '=') {
+                        tokens.add(Token(TokenType.GREATER_EQUAL, ">=", pos))
+                        pos += 2
+                    } else {
+                        tokens.add(Token(TokenType.GREATER, ">", pos++))
+                    }
+                }
                 char.isDigit() || char == '.' -> tokens.add(readNumber())
                 char.isLetter() -> tokens.add(readIdentifier())
                 else -> throw MathException.UnexpectedToken(char.toString(), pos)

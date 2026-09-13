@@ -4,15 +4,18 @@ import kotlin.math.*
 
 object Evaluator {
     fun evaluate(node: AstNode, x: Double): Double {
+        return evaluate(node, mapOf("x" to x))
+    }
+    
+    fun evaluate(node: AstNode, bindings: Map<String, Double>): Double {
         return when (node) {
             is AstNode.Num -> node.value
             is AstNode.Var -> {
-                if (node.name == "x") x
-                else throw MathException.EvaluationError("Unknown variable: ${node.name}")
+                bindings[node.name] ?: throw MathException.EvaluationError("Unknown variable: ${node.name}")
             }
             is AstNode.BinOp -> {
-                val leftVal = evaluate(node.left, x)
-                val rightVal = evaluate(node.right, x)
+                val leftVal = evaluate(node.left, bindings)
+                val rightVal = evaluate(node.right, bindings)
                 when (node.op) {
                     '+' -> leftVal + rightVal
                     '-' -> leftVal - rightVal
@@ -24,7 +27,7 @@ object Evaluator {
                 }
             }
             is AstNode.UnaryOp -> {
-                val value = evaluate(node.operand, x)
+                val value = evaluate(node.operand, bindings)
                 when (node.op) {
                     '-' -> -value
                     '+' -> value
@@ -32,7 +35,7 @@ object Evaluator {
                 }
             }
             is AstNode.FuncCall -> {
-                val argVal = evaluate(node.arg, x)
+                val argVal = evaluate(node.arg, bindings)
                 when (node.name) {
                     "sin" -> sin(argVal)
                     "cos" -> cos(argVal)
