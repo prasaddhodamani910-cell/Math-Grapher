@@ -7,11 +7,18 @@ object Evaluator {
         return evaluate(node, mapOf("x" to x))
     }
     
+    var isDegreesMode = false
+    
+    private fun isOddIntegerReciprocal(exp: Double): Boolean {
+        val rec = 1.0 / exp
+        return abs(rec - round(rec)) < 1e-9 && (round(rec).toLong() % 2L != 0L)
+    }
+
     fun evaluate(node: AstNode, bindings: Map<String, Double>): Double {
         return when (node) {
             is AstNode.Num -> node.value
             is AstNode.Var -> {
-                bindings[node.name] ?: throw MathException.EvaluationError("Unknown variable: ${node.name}")
+                bindings[node.name] ?: 1.0 // Bug 2/3 fix: default unknown parameters to 1.0
             }
             is AstNode.BinOp -> {
                 val leftVal = evaluate(node.left, bindings)
@@ -21,7 +28,13 @@ object Evaluator {
                     '-' -> leftVal - rightVal
                     '*' -> leftVal * rightVal
                     '/' -> leftVal / rightVal
-                    '^' -> leftVal.pow(rightVal)
+                    '^' -> {
+                        if (leftVal < 0 && isOddIntegerReciprocal(rightVal)) {
+                            -abs(leftVal).pow(rightVal)
+                        } else {
+                            leftVal.pow(rightVal)
+                        }
+                    }
                     '%' -> leftVal % rightVal
                     else -> throw MathException.EvaluationError("Unknown operator: ${node.op}")
                 }
@@ -36,13 +49,27 @@ object Evaluator {
             }
             is AstNode.FuncCall -> {
                 val argVal = evaluate(node.arg, bindings)
+                val trigArg = if (isDegreesMode && node.name in listOf("sin", "cos", "tan")) {
+                    argVal * PI / 180.0
+                } else {
+                    argVal
+                }
                 when (node.name) {
-                    "sin" -> sin(argVal)
-                    "cos" -> cos(argVal)
-                    "tan" -> tan(argVal)
-                    "asin" -> asin(argVal)
-                    "acos" -> acos(argVal)
-                    "atan" -> atan(argVal)
+                    "sin" -> sin(trigArg)
+                    "cos" -> cos(trigArg)
+                    "tan" -> tan(trigArg)
+                    "asin" -> {
+                        val res = asin(argVal)
+                        if (isDegreesMode) res * 180.0 / PI else res
+                    }
+                    "acos" -> {
+                        val res = acos(argVal)
+                        if (isDegreesMode) res * 180.0 / PI else res
+                    }
+                    "atan" -> {
+                        val res = atan(argVal)
+                        if (isDegreesMode) res * 180.0 / PI else res
+                    }
                     "log" -> log10(argVal)
                     "ln" -> ln(argVal)
                     "sqrt" -> sqrt(argVal)

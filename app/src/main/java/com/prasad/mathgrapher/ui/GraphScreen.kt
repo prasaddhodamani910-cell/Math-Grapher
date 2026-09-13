@@ -97,6 +97,15 @@ fun GraphScreen(
                             onDismissRequest = { showMenu = false }
                         ) {
                             DropdownMenuItem(
+                                text = { Text(if (com.prasad.mathgrapher.math.Evaluator.isDegreesMode) "Angle: Degrees" else "Angle: Radians") },
+                                onClick = { 
+                                    com.prasad.mathgrapher.math.Evaluator.isDegreesMode = !com.prasad.mathgrapher.math.Evaluator.isDegreesMode
+                                    // Trigger a recomposition and re-evaluation. A clean way without architecture changes is to just nudge the viewport.
+                                    viewModel.panViewport(0f, 0f, 100f, 100f)
+                                    showMenu = false 
+                                }
+                            )
+                            DropdownMenuItem(
                                 text = { Text("Add") },
                                 onClick = { showMenu = false }
                             )
