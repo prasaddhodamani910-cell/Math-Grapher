@@ -32,9 +32,9 @@ Email: prasaddhodamani910@gmail.com
 
 This software is released under a Custom Proprietary License.
 
-*   **Use:** You are free to use this application in full.
-*   **Commercial Use:** You are allowed to sell and use the application for full commercial use.
+*   **Use:** You are free to use this application for personal, non-commercial purposes.
+*   **Commercial Use:** Commercial use, distribution for profit, or selling this application is **STRICTLY PROHIBITED** unless you have explicitly purchased a Commercial License from Prasad Dhodamani.
 *   **No Modifications:** You may NOT edit, modify, reverse-engineer, or create derivative works from this source code.
-*   **Attribution:** You must provide proper credits to the original developer (Prasad Dhodamani) when distributing or showcasing this application.
+*   **Attribution:** You must provide proper credits to the original developer (Prasad Dhodamani) when showcasing or sharing this application.
 
 For more details, see the [LICENSE](./LICENSE) file.
