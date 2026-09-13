@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Light theme colors (from design spec Section 8.1) -->
+    <color name="background">#FAFAF8</color>
+    <color name="surface">#FFFFFF</color>
+    <color name="primary">#2F6FED</color>
+    <color name="onSurfaceMuted">#6B7280</color>
+    <color name="gridLine">#E5E7EB</color>
+
+    <!-- Curve palette -->
+    <color name="curve_1">#2F6FED</color>
+    <color name="curve_2">#ED6A5A</color>
+    <color name="curve_3">#4CAF8C</color>
+    <color name="curve_4">#F2B705</color>
+    <color name="curve_5">#9B59B6</color>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark theme variant -->
+    <style name="Theme.MathGrapher" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">#12141A</item>
+        <item name="android:statusBarColor">#12141A</item>
+        <item name="android:navigationBarColor">#12141A</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

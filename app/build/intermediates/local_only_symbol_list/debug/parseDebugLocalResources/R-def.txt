@@ -1,0 +1,25 @@
+R_DEF: Internal format may change without notice
+local
+color background
+color curve_1
+color curve_2
+color curve_3
+color curve_4
+color curve_5
+color gridLine
+color onSurfaceMuted
+color primary
+color surface
+drawable ic_launcher_foreground
+mipmap ic_launcher
+mipmap ic_launcher_round
+string add_equation
+string app_name
+string coordinate_format
+string equation_hint
+string equation_placeholder
+string parse_error
+string remove_equation
+string reset_viewport
+string toggle_theme
+style Theme.MathGrapher

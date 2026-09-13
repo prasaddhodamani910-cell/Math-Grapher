@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Math Grapher</string>
+    <string name="equation_hint">y = </string>
+    <string name="equation_placeholder">Try: y = x² − 3</string>
+    <string name="add_equation">Add equation</string>
+    <string name="remove_equation">Remove equation</string>
+    <string name="reset_viewport">Reset view</string>
+    <string name="toggle_theme">Toggle theme</string>
+    <string name="coordinate_format">(%1$.2f, %2$.2f)</string>
+    <string name="parse_error">Error at position %1$d: %2$s</string>
+</resources>
