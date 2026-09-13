@@ -4,16 +4,20 @@ Math Grapher is a professional, mobile-first graphing calculator application des
 
 ## 🚀 Features
 
+*   **Universal Equation Support**: Graph explicit (`y=...`), implicit (`x^2+y^2=25`), parametric (`x=cos(t), y=sin(t)`), polar (`r=sin(theta)`), and inequalities (`y > x^2`) seamlessly.
 *   **Interactive Graphing**: Pan and zoom around the coordinate plane seamlessly.
-*   **Custom Math Engine**: Parses and evaluates mathematical expressions natively, supporting implicit multiplication and standard math functions (sin, cos, tan, log, etc.).
-*   **Multiple Equations**: Graph multiple functions simultaneously with color-coded curves.
-*   **Modern UI**: Built with a sleek, dark-first professional interface featuring smooth animations and a sliding bottom sheet for equation management.
-*   **Smart Keyboard Support**: Automatically sanitizes mobile keyboard inputs (e.g., converting `²` to `^2` and `−` to `-`).
+*   **Live Syntax Highlighting & Preview**: Real-time math notation preview and color-coded syntax highlighting as you type.
+*   **Custom Math Engine**: Parses and evaluates expressions natively, handling advanced scenarios like implicit multiplication, negative odd roots, and both Radians/Degrees modes.
+*   **Multiple Equations**: Graph multiple functions simultaneously with a scrollable chip list and color-coded curves.
+*   **Modern UI**: Sleek, dark-first professional interface with smooth animations, dynamic keyboard padding, and beautiful grid/axis rendering.
 
 ## 📥 Download Versions
 
 You can find all versions of the APK in the [`releases/`](./releases) folder of this repository.
 
+*   **v1.5.0**: Massive robustness update! Added a dedicated dual-input Parametric mode, gracefully handles unknown parameters as `1.0`, supports negative odd roots (e.g. `x^(1/3)`), and adds a Radians/Degrees angle toggle.
+*   **v1.4.0**: Complete UI Redesign! Added live math preview strip, live syntax highlighting in the input bar, horizontal scrollable equation chips, keyboard padding fixes, and translucent halos for axis labels.
+*   **v1.3.0**: Universal Equation Support! Introduced Marching Squares for implicit equations, parametric curves, polar functions, and inequalities without needing to switch modes manually.
 *   **v1.2.0**: The polished version featuring an edge-to-edge UI, fixed graph bounds clipping, proper negative grid scaling, and an updated professional dark theme with About/Credits dialogs.
 *   **v1.1.0**: The major UI overhaul implementing a bottom sheet, side vertical zoom controls, and a new color hierarchy.
 *   **v1.0.0 (fixed)**: The original functional release.
