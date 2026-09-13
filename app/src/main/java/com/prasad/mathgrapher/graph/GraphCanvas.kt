@@ -92,9 +92,24 @@ fun GraphCanvas(
                 (textColor.green * 255).toInt(),
                 (textColor.blue * 255).toInt()
             )
-            textSize = 24f
+            textSize = 28f
             isAntiAlias = true
             typeface = Typeface.DEFAULT
+        }
+        
+        val haloPaint = Paint().apply {
+            val bg = mathColors.surfaceElevated
+            color = android.graphics.Color.argb(
+                200, // slightly transparent
+                (bg.red * 255).toInt(),
+                (bg.green * 255).toInt(),
+                (bg.blue * 255).toInt()
+            )
+            textSize = 28f
+            isAntiAlias = true
+            typeface = Typeface.DEFAULT
+            style = Paint.Style.STROKE
+            strokeWidth = 8f
         }
 
         fun isNearMultiple(value: Double, step: Double, threshold: Double): Boolean {
@@ -114,15 +129,15 @@ fun GraphCanvas(
                     color = if (isAxis) axisColor else if (isMajor) majorGridColor else minorGridColor,
                     start = Offset(sx, 0f),
                     end = Offset(sx, screenHeight),
-                    strokeWidth = if (isAxis) 3f else if (isMajor) 2f else 1f
+                    strokeWidth = if (isAxis) 4f else if (isMajor) 2f else 1f
                 )
 
                 if (isMajor && !isAxis) {
                     val labelY = viewport.worldToScreenY(0.0, screenHeight)
                         .coerceIn(40f, screenHeight - 10f)
-                    canvas.nativeCanvas.drawText(
-                        formatLabel(xVal), sx + 6f, labelY - 6f, textPaint
-                    )
+                    val formatted = formatLabel(xVal)
+                    canvas.nativeCanvas.drawText(formatted, sx + 8f, labelY - 8f, haloPaint)
+                    canvas.nativeCanvas.drawText(formatted, sx + 8f, labelY - 8f, textPaint)
                 }
                 xVal += minorXStep
             }
@@ -138,15 +153,15 @@ fun GraphCanvas(
                     color = if (isAxis) axisColor else if (isMajor) majorGridColor else minorGridColor,
                     start = Offset(0f, sy),
                     end = Offset(screenWidth, sy),
-                    strokeWidth = if (isAxis) 3f else if (isMajor) 2f else 1f
+                    strokeWidth = if (isAxis) 4f else if (isMajor) 2f else 1f
                 )
 
                 if (isMajor && !isAxis) {
                     val labelX = viewport.worldToScreenX(0.0, screenWidth)
-                        .coerceIn(10f, screenWidth - 60f)
-                    canvas.nativeCanvas.drawText(
-                        formatLabel(yVal), labelX + 6f, sy - 6f, textPaint
-                    )
+                        .coerceIn(10f, screenWidth - 80f)
+                    val formatted = formatLabel(yVal)
+                    canvas.nativeCanvas.drawText(formatted, labelX + 8f, sy - 8f, haloPaint)
+                    canvas.nativeCanvas.drawText(formatted, labelX + 8f, sy - 8f, textPaint)
                 }
                 yVal += minorYStep
             }

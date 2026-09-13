@@ -9,13 +9,15 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
@@ -44,17 +46,23 @@ fun EquationList(
     val mathColors = LocalMathGrapherColors.current
     if (equations.isEmpty()) {
         Column(
-            modifier = modifier.fillMaxWidth().padding(vertical = 32.dp),
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(vertical = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("No equations yet", color = mathColors.onSurfaceMuted, style = MaterialTheme.typography.bodyLarge)
+            Text("No equations yet", color = mathColors.onSurfaceMuted, style = MaterialTheme.typography.bodyMedium)
         }
         return
     }
 
-    LazyColumn(
-        modifier = modifier.fillMaxWidth(),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+    LazyRow(
+        modifier = modifier
+            .fillMaxWidth()
+            .heightIn(max = 56.dp),
+        contentPadding = PaddingValues(horizontal = 24.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
         items(
             items = equations,
@@ -65,54 +73,54 @@ fun EquationList(
                 enter = fadeIn(animationSpec = tween(150)),
                 exit = fadeOut(animationSpec = tween(150))
             ) {
+                val color = if (curveColors.isNotEmpty()) {
+                    curveColors[equation.colorIndex % curveColors.size]
+                } else {
+                    Color.Blue
+                }
+                
                 Surface(
-                    shape = MaterialTheme.shapes.medium,
-                    color = MaterialTheme.colorScheme.surface,
-                    modifier = Modifier.fillMaxWidth()
+                    shape = CircleShape,
+                    color = color.copy(alpha = 0.08f), // Tonal fill
+                    modifier = Modifier.heightIn(min = 40.dp)
                 ) {
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp),
+                            .padding(horizontal = 16.dp, vertical = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         // Color dot matching the curve
-                        val color = if (curveColors.isNotEmpty()) {
-                            curveColors[equation.colorIndex % curveColors.size]
-                        } else {
-                            Color.Blue
-                        }
                         Box(
                             modifier = Modifier
-                                .size(12.dp)
+                                .size(10.dp)
                                 .background(color = color, shape = CircleShape)
                         )
-                        Spacer(modifier = Modifier.width(16.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
+                        
                         // Equation text
                         Text(
-                            text = equation.text,
+                            text = equation.text.take(15) + if (equation.text.length > 15) "..." else "",
                             style = TextStyle(
                                 fontFamily = EquationFontFamily, 
-                                fontSize = 18.sp, 
+                                fontSize = 16.sp, 
                                 fontWeight = FontWeight.Medium
                             ),
                             color = if (equation.error != null) {
                                 MaterialTheme.colorScheme.error
                             } else {
                                 MaterialTheme.colorScheme.onSurface
-                            },
-                            modifier = Modifier.weight(1f)
+                            }
                         )
-                        Spacer(modifier = Modifier.width(16.dp))
-                        // Remove button (using X for simplicity in absence of more icons)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        
+                        // Remove button
                         Text(
                             text = "✕",
                             color = mathColors.onSurfaceMuted,
-                            fontSize = 18.sp,
+                            fontSize = 16.sp,
                             modifier = Modifier
                                 .clip(CircleShape)
                                 .clickable { onRemoveEquation(equation.id) }
-                                .padding(8.dp)
                         )
                     }
                 }

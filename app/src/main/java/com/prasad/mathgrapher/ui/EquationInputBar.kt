@@ -1,4 +1,6 @@
 package com.prasad.mathgrapher.ui
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.foundation.layout.Column
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -37,55 +39,84 @@ fun EquationInputBar(
         shape = MaterialTheme.shapes.medium,
         color = MaterialTheme.colorScheme.surface
     ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = "y =",
-                color = mathColors.onSurfaceMuted,
-                style = TextStyle(fontFamily = EquationFontFamily, fontSize = 20.sp),
-                modifier = Modifier.padding(end = 8.dp)
-            )
-
-            BasicTextField(
-                value = value,
-                onValueChange = onValueChange,
-                textStyle = TextStyle(
-                    color = MaterialTheme.colorScheme.onSurface,
-                    fontFamily = EquationFontFamily,
-                    fontSize = 20.sp
-                ),
-                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                singleLine = true,
-                modifier = Modifier.weight(1f),
-                decorationBox = { innerTextField ->
-                    Box(contentAlignment = Alignment.CenterStart) {
-                        if (value.isEmpty()) {
-                            Text(
-                                text = "Try: x² − 3",
-                                color = mathColors.onSurfaceMuted.copy(alpha = 0.5f),
-                                style = TextStyle(fontFamily = EquationFontFamily, fontSize = 20.sp)
-                            )
-                        }
-                        innerTextField()
-                    }
-                }
-            )
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            IconButton(
-                onClick = onAddEquation,
-                modifier = Modifier
-                    .size(36.dp)
-                    .background(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), shape = CircleShape)
+        Column {
+            // Live Preview Strip
+            if (value.isNotBlank()) {
+                val previewText = value
+                    .replace("*", "×")
+                    .replace("/", "÷")
+                    .replace("^2", "²")
+                    .replace("^3", "³")
+                    .replace("-", "−")
+                
+                Text(
+                    text = previewText,
+                    style = TextStyle(
+                        fontFamily = EquationFontFamily,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.primary
+                    ),
+                    modifier = Modifier.padding(horizontal = 24.dp, vertical = 8.dp)
+                )
+            }
+            
+            Row(
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 12.dp, top = if (value.isNotBlank()) 0.dp else 12.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "+",
-                    color = MaterialTheme.colorScheme.primary,
-                    fontSize = 20.sp
+                    text = "y =",
+                    color = mathColors.onSurfaceMuted,
+                    style = TextStyle(fontFamily = EquationFontFamily, fontSize = 20.sp),
+                    modifier = Modifier.padding(end = 8.dp)
                 )
+
+                BasicTextField(
+                    value = value,
+                    onValueChange = onValueChange,
+                    textStyle = TextStyle(
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontFamily = EquationFontFamily,
+                        fontSize = 20.sp
+                    ),
+                    cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                    singleLine = true,
+                    modifier = Modifier.weight(1f),
+                    visualTransformation = MathSyntaxHighlighter(
+                        primaryColor = MaterialTheme.colorScheme.primary,
+                        secondaryColor = MaterialTheme.colorScheme.secondary,
+                        errorColor = MaterialTheme.colorScheme.error,
+                        defaultColor = MaterialTheme.colorScheme.onSurface
+                    ),
+                    decorationBox = { innerTextField ->
+                        Box(contentAlignment = Alignment.CenterStart) {
+                            if (value.isEmpty()) {
+                                Text(
+                                    text = "Try: x² − 3",
+                                    color = mathColors.onSurfaceMuted.copy(alpha = 0.5f),
+                                    style = TextStyle(fontFamily = EquationFontFamily, fontSize = 20.sp)
+                                )
+                            }
+                            innerTextField()
+                        }
+                    }
+                )
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                IconButton(
+                    onClick = onAddEquation,
+                    modifier = Modifier
+                        .size(36.dp)
+                        .background(color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f), shape = CircleShape)
+                ) {
+                    Text(
+                        text = "+",
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 20.sp
+                    )
+                }
             }
         }
     }

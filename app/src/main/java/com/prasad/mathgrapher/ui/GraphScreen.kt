@@ -1,4 +1,5 @@
 package com.prasad.mathgrapher.ui
+import androidx.compose.foundation.layout.imePadding
 
 import android.content.Intent
 import android.net.Uri
@@ -204,7 +205,7 @@ fun GraphScreen(
                     shape = RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp),
                     color = mathColors.surfaceElevated,
                     shadowElevation = 8.dp,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().imePadding()
                 ) {
                     Column(modifier = Modifier.fillMaxWidth().padding(top = 12.dp, bottom = 24.dp)) {
                         // Drag handle indicator
