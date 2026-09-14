@@ -43,6 +43,7 @@ fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     var isSigningIn by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
     var visible by remember { mutableStateOf(false) }
     
     LaunchedEffect(Unit) { visible = true }
@@ -62,21 +63,36 @@ fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
                 Text("Math Grapher", style = MaterialTheme.typography.displayLarge)
                 Spacer(Modifier.height(48.dp))
                 
+                if (errorMessage != null) {
+                    Text(
+                        text = errorMessage!!,
+                        color = MaterialTheme.colorScheme.error,
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                }
+                
                 Button(
                     enabled = !isSigningIn,
                     onClick = {
                         isSigningIn = true
+                        errorMessage = null
                         scope.launch {
-                            val user = signInWithGoogle(context)
+                            val result = signInWithGoogle(context)
                             isSigningIn = false
-                            if (user != null) {
-                                try {
-                                    com.prasad.mathgrapher.auth.AuthRepository.saveUserProfile(user)
-                                } catch (e: Exception) {
-                                    e.printStackTrace()
+                            result.fold(
+                                onSuccess = { user ->
+                                    try {
+                                        com.prasad.mathgrapher.auth.AuthRepository.saveUserProfile(user)
+                                    } catch (e: Exception) {
+                                        e.printStackTrace()
+                                    }
+                                    onSignedIn(user)
+                                },
+                                onFailure = { e ->
+                                    errorMessage = e.message ?: e.javaClass.simpleName
                                 }
-                                onSignedIn(user)
-                            }
+                            )
                         }
                     },
                     modifier = Modifier.fillMaxWidth(0.8f).height(50.dp)
