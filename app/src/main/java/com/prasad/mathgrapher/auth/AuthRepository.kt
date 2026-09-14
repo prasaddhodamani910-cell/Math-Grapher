@@ -20,13 +20,22 @@ object AuthRepository {
             "lastLoginAt" to com.google.firebase.firestore.FieldValue.serverTimestamp()
         )
         
-        // Use SetOptions.merge() so we don't overwrite createdAt if it exists
         userRef.set(data, SetOptions.merge()).await()
         
-        // Only set createdAt if the document was just created
         val doc = userRef.get().await()
         if (!doc.contains("createdAt")) {
             userRef.set(hashMapOf("createdAt" to com.google.firebase.firestore.FieldValue.serverTimestamp()), SetOptions.merge()).await()
         }
+    }
+    
+    suspend fun getUserProfile(uid: String): Map<String, Any>? {
+        return firestore.collection("users").document(uid).get().await().data
+    }
+    
+    suspend fun updateProfile(uid: String, customName: String?, customPhotoUrl: String?) {
+        val updates = mutableMapOf<String, Any>()
+        if (customName != null) updates["customDisplayName"] = customName
+        if (customPhotoUrl != null) updates["customPhotoUrl"] = customPhotoUrl
+        firestore.collection("users").document(uid).set(updates, SetOptions.merge()).await()
     }
 }

@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.prasad.mathgrapher.app-mergeDebugResources-62:/values-zh-rTW/values-zh-rTW.xml",
+            "outputFile": "com.prasad.mathgrapher.app-mergeDebugResources-64:/values-zh-rTW/values-zh-rTW.xml",
             "map": [
                 {
                     "source": "/data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/5d65c4bfed26fe0ee89407f6aedc46e8/transformed/core-1.13.1/res/values-zh-rTW/values-zh-rTW.xml",

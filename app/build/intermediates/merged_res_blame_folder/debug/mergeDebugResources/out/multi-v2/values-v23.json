@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.prasad.mathgrapher.app-mergeDebugResources-62:/values-v23/values-v23.xml",
+            "outputFile": "com.prasad.mathgrapher.app-mergeDebugResources-64:/values-v23/values-v23.xml",
             "map": [
                 {
                     "source": "/data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/8746b618242250473de9a68b4afdceea/transformed/work-runtime-2.9.1/res/values-v23/values-v23.xml",

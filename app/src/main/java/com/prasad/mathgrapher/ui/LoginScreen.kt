@@ -1,24 +1,90 @@
 package com.prasad.mathgrapher.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.scaleIn
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.prasad.mathgrapher.R
 import com.prasad.mathgrapher.auth.GoogleUser
 import com.prasad.mathgrapher.auth.signInWithGoogle
 import kotlinx.coroutines.launch
+import kotlin.math.sin
+
+@Composable
+fun AnimatedMathBackground() {
+    val infiniteTransition = rememberInfiniteTransition(label = "math_waves")
+    val phase by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 2f * Math.PI.toFloat(),
+        animationSpec = infiniteRepeatable(animation = tween(4000, easing = LinearEasing)),
+        label = "phase"
+    )
+
+    val primaryColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
+    val secondaryColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
+
+    Canvas(modifier = Modifier.fillMaxSize()) {
+        val path1 = Path()
+        val path2 = Path()
+        val width = size.width
+        val height = size.height
+
+        for (x in 0..width.toInt() step 5) {
+            val normalizedX = (x / width) * 2f * Math.PI.toFloat()
+            
+            // Wave 1
+            val y1 = height / 2f + sin(normalizedX + phase) * (height / 6f)
+            if (x == 0) path1.moveTo(x.toFloat(), y1) else path1.lineTo(x.toFloat(), y1)
+
+            // Wave 2
+            val y2 = height / 2f + sin(normalizedX * 1.5f - phase) * (height / 5f)
+            if (x == 0) path2.moveTo(x.toFloat(), y2) else path2.lineTo(x.toFloat(), y2)
+        }
+
+        drawPath(path1, primaryColor, style = Stroke(width = 8f))
+        drawPath(path2, secondaryColor, style = Stroke(width = 8f))
+    }
+}
+
+@Composable
+fun PulsingLogo() {
+    val infiniteTransition = rememberInfiniteTransition(label = "logoPulse")
+    val scale by infiniteTransition.animateFloat(
+        initialValue = 1f,
+        targetValue = 1.05f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1200, easing = FastOutSlowInEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "scale"
+    )
+    Icon(
+        painter = painterResource(id = R.drawable.ic_launcher_foreground),
+        contentDescription = "Logo",
+        modifier = Modifier
+            .size(100.dp)
+            .graphicsLayer(scaleX = scale, scaleY = scale),
+        tint = MaterialTheme.colorScheme.primary
+    )
+}
 
 @Composable
 fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
@@ -30,77 +96,114 @@ fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
     
     LaunchedEffect(Unit) { visible = true }
     
-    val scale = remember { Animatable(0.8f) }
-    LaunchedEffect(Unit) {
-        scale.animateTo(1f, animationSpec = tween(1000))
-    }
-
-    AnimatedVisibility(
-        visible = visible,
-        enter = fadeIn(tween(800)) + scaleIn(tween(800))
-    ) {
-        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-            Column(
-                modifier = Modifier.fillMaxSize().padding(32.dp),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                    contentDescription = "Logo",
-                    modifier = Modifier
-                        .size(120.dp)
-                        .graphicsLayer {
-                            scaleX = scale.value
-                            scaleY = scale.value
-                        },
-                    tint = MaterialTheme.colorScheme.primary
-                )
-                Spacer(modifier = Modifier.height(32.dp))
-                Text("Math Grapher", style = MaterialTheme.typography.displayLarge)
-                Spacer(Modifier.height(48.dp))
-                
-                if (errorMessage != null) {
-                    Text(
-                        text = errorMessage!!,
-                        color = MaterialTheme.colorScheme.error,
-                        style = MaterialTheme.typography.bodySmall,
-                        modifier = Modifier.padding(bottom = 16.dp)
+    Box(modifier = Modifier.fillMaxSize()) {
+        // Beautiful animated gradient background
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.background,
+                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                        )
                     )
-                }
-                
-                Button(
-                    enabled = !isSigningIn,
-                    onClick = {
-                        isSigningIn = true
-                        errorMessage = null
-                        scope.launch {
-                            val result = signInWithGoogle(context)
-                            isSigningIn = false
-                            result.fold(
-                                onSuccess = { user ->
-                                    try {
-                                        scope.launch { com.prasad.mathgrapher.auth.AuthRepository.saveUserProfile(user) }
-                                    } catch (e: Exception) {
-                                        e.printStackTrace()
-                                    }
-                                    onSignedIn(user)
-                                },
-                                onFailure = { e ->
-                                    errorMessage = "ERROR: ${e.javaClass.simpleName} - ${e.message}"
-                                }
-                            )
-                        }
-                    },
-                    modifier = Modifier.fillMaxWidth(0.8f).height(50.dp)
+                )
+        )
+        
+        AnimatedMathBackground()
+
+        Column(
+            modifier = Modifier.fillMaxSize().padding(32.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            AnimatedVisibility(
+                visible = visible,
+                enter = fadeIn(tween(800)) + slideInVertically(tween(800)) { it / 4 }
+            ) {
+                Card(
+                    modifier = Modifier.fillMaxWidth().wrapContentHeight(),
+                    shape = RoundedCornerShape(24.dp),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                 ) {
-                    Text(if (isSigningIn) "Signing in..." else "Sign in with Google")
-                }
-                
-                Spacer(Modifier.height(16.dp))
-                
-                TextButton(onClick = onSkip, enabled = !isSigningIn) {
-                    Text("Skip for now")
+                    Column(
+                        modifier = Modifier.padding(32.dp).fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        PulsingLogo()
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            "Math Grapher",
+                            style = MaterialTheme.typography.headlineLarge,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            "Visualize your equations beautifully.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                        Spacer(Modifier.height(48.dp))
+                        
+                        if (errorMessage != null) {
+                            Card(
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
+                                modifier = Modifier.padding(bottom = 16.dp).fillMaxWidth()
+                            ) {
+                                Text(
+                                    text = errorMessage!!,
+                                    color = MaterialTheme.colorScheme.onErrorContainer,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    modifier = Modifier.padding(12.dp)
+                                )
+                            }
+                        }
+                        
+                        Button(
+                            enabled = !isSigningIn,
+                            onClick = {
+                                isSigningIn = true
+                                errorMessage = null
+                                scope.launch {
+                                    val result = signInWithGoogle(context)
+                                    isSigningIn = false
+                                    result.fold(
+                                        onSuccess = { user ->
+                                            try {
+                                                scope.launch { com.prasad.mathgrapher.auth.AuthRepository.saveUserProfile(user) }
+                                            } catch (e: Exception) {
+                                                e.printStackTrace()
+                                            }
+                                            onSignedIn(user)
+                                        },
+                                        onFailure = { e ->
+                                            errorMessage = "ERROR: ${e.javaClass.simpleName} - ${e.message}"
+                                        }
+                                    )
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth().height(56.dp),
+                            shape = RoundedCornerShape(16.dp)
+                        ) {
+                            if (isSigningIn) {
+                                CircularProgressIndicator(modifier = Modifier.size(24.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.dp)
+                            } else {
+                                Text("Sign in with Google", fontWeight = FontWeight.Bold)
+                            }
+                        }
+                        
+                        Spacer(Modifier.height(16.dp))
+                        
+                        TextButton(
+                            onClick = onSkip,
+                            enabled = !isSigningIn,
+                            modifier = Modifier.fillMaxWidth().height(48.dp)
+                        ) {
+                            Text("Skip for now")
+                        }
+                    }
                 }
             }
         }

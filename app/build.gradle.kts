@@ -49,6 +49,7 @@ android {
 }
 
 dependencies {
+    implementation("io.coil-kt:coil-compose:2.6.0")
     // Compose BOM — single version source for all Compose libraries
     val composeBom = platform("androidx.compose:compose-bom:2024.06.00")
     implementation(composeBom)

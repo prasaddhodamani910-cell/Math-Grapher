@@ -4,7 +4,9 @@ ADDED from /storage/emulated/0/Projects/Drawmath/app/src/main/AndroidManifest.xm
 INJECTED from /storage/emulated/0/Projects/Drawmath/app/src/main/AndroidManifest.xml:2:1-27:12
 INJECTED from /storage/emulated/0/Projects/Drawmath/app/src/main/AndroidManifest.xml:2:1-27:12
 INJECTED from /storage/emulated/0/Projects/Drawmath/app/src/main/AndroidManifest.xml:2:1-27:12
+MERGED from [io.coil-kt:coil-compose:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/5209508a32de0949aa717a472d5385ca/transformed/coil-compose-2.6.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material3:material3-android:1.2.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/07afbce4841061e6f1f2b5a51cef5906/transformed/material3-release/AndroidManifest.xml:17:1-22:12
+MERGED from [io.coil-kt:coil-compose-base:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/c07b4369dfe63d5a3844eba065401f78/transformed/coil-compose-base-2.6.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-ripple-android:1.6.8] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/9bf4702296a5037cd0a111ac838ee3d0/transformed/material-ripple-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-icons-core-android:1.6.8] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/9b39e5d9aa91af88c9cf3d7b0fcc914f/transformed/material-icons-core-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.material:material-android:1.6.8] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/3fc4e8a35824e6ee9fbdda3db1427ad5/transformed/material-release/AndroidManifest.xml:2:1-7:12
@@ -42,13 +44,18 @@ MERGED from [androidx.compose.runtime:runtime-saveable-android:1.6.8] /data/data
 MERGED from [androidx.compose.runtime:runtime-android:1.6.8] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/c89eb7641713751410a3aee885879b86/transformed/runtime-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.work:work-runtime-ktx:2.9.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/71ac311f0c2456223c795cdfcdc3623c/transformed/work-runtime-ktx-2.9.1/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.work:work-runtime:2.9.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/8746b618242250473de9a68b4afdceea/transformed/work-runtime-2.9.1/AndroidManifest.xml:17:1-145:12
+MERGED from [io.coil-kt:coil:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/7c08b8eb2173bd7e3dd15332b3996e6b/transformed/coil-2.6.0/AndroidManifest.xml:2:1-7:12
+MERGED from [io.coil-kt:coil-base:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/d322093863c85f3d00c18522a3c0bef7/transformed/coil-base-2.6.0/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/08cc72e95a3bfa4152aa36dd582ea37b/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.core:core-ktx:1.13.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/20d1957d2dbfda9b4ede93fbf2b26b83/transformed/core-ktx-1.13.1/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.browser:browser:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/859b8fd34c141b8b8702c3f7cf51280d/transformed/browser-1.4.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/da6de04ac58b4726af863f1f9033e180/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.emoji2:emoji2:1.3.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/25043ee26144717fecdcc5fa7660e7c1/transformed/emoji2-1.3.0/AndroidManifest.xml:17:1-35:12
 MERGED from [androidx.autofill:autofill:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/d2233dfdf921fefa6de05d17b179a7ea/transformed/autofill-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.loader:loader:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/27d58e8a79f09a8ef7680c0ec07cb1f7/transformed/loader-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.viewpager:viewpager:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/4c2dbd03b7e69363873bb2c004a421f1/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/d377a7978596b097fc0a321adb66935c/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/2c759c935c527b1b32be69505bb05dab/transformed/vectordrawable-1.1.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.customview:customview:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/80e665e99d2a316ff05aec222cd85a80/transformed/customview-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core:1.13.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/5d65c4bfed26fe0ee89407f6aedc46e8/transformed/core-1.13.1/AndroidManifest.xml:17:1-30:12
 MERGED from [androidx.savedstate:savedstate-ktx:1.2.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/dfc832041b0f0cc1058961de1cebb48b/transformed/savedstate-ktx-1.2.1/AndroidManifest.xml:17:1-22:12
@@ -62,6 +69,7 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel-android:2.8.4] /data/data/co
 MERGED from [androidx.lifecycle:lifecycle-runtime-ktx-android:2.8.4] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/1a491e381aecb97d6eec04c591f3406c/transformed/lifecycle-runtime-ktx-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-service:2.8.4] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/e05254ec5e83db04e8698f2c1214ddd5/transformed/lifecycle-service-2.8.4/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.8.4] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/33fc6c6a0f334876fcb2096734461d38/transformed/lifecycle-livedata-2.8.4/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/3df5ea892c3e6a091268f5b8bf46b9f7/transformed/accompanist-drawablepainter-0.32.0/AndroidManifest.xml:17:1-23:12
 MERGED from [androidx.room:room-ktx:2.5.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/c5cce7a4018b520d90739d4aa3e8d16d/transformed/room-ktx-2.5.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/47e26adfe3981e4b67937206bfd79e08/transformed/play-services-tasks-18.1.0/AndroidManifest.xml:2:1-6:12
 MERGED from [com.google.android.gms:play-services-basement:18.3.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/a2eb3961cc27baa53f36c03bba36e13b/transformed/play-services-basement-18.3.0/AndroidManifest.xml:16:1-26:12
@@ -83,6 +91,7 @@ MERGED from [androidx.localbroadcastmanager:localbroadcastmanager:1.0.0] /data/d
 MERGED from [com.google.firebase:firebase-components:18.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/0602627077e6c0743b6a10a567361322/transformed/firebase-components-18.0.0/AndroidManifest.xml:15:1-20:12
 MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/e1415fb929bd3c0395e7e229e5a9f854/transformed/profileinstaller-1.3.1/AndroidManifest.xml:17:1-55:12
 MERGED from [androidx.startup:startup-runtime:1.1.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/9701ea05e28d64a4c518bb36a53344a3/transformed/startup-runtime-1.1.1/AndroidManifest.xml:17:1-33:12
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/6c9f56c32c1a6200e5493a6bf637f329/transformed/exifinterface-1.3.7/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.tracing:tracing:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/f165085d777bd0c0b558bd8716142875/transformed/tracing-1.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.sqlite:sqlite:2.3.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/1131cd7be205d0b5dac6a3e5951095e4/transformed/sqlite-2.3.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.arch.core:core-runtime:2.2.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/fb28a0d0af37a67157fcf95d72552bb8/transformed/core-runtime-2.2.0/AndroidManifest.xml:17:1-22:12
@@ -199,8 +208,12 @@ uses-sdk
 INJECTED from /storage/emulated/0/Projects/Drawmath/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /storage/emulated/0/Projects/Drawmath/app/src/main/AndroidManifest.xml
 INJECTED from /storage/emulated/0/Projects/Drawmath/app/src/main/AndroidManifest.xml
+MERGED from [io.coil-kt:coil-compose:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/5209508a32de0949aa717a472d5385ca/transformed/coil-compose-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/5209508a32de0949aa717a472d5385ca/transformed/coil-compose-2.6.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material3:material3-android:1.2.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/07afbce4841061e6f1f2b5a51cef5906/transformed/material3-release/AndroidManifest.xml:20:5-44
 MERGED from [androidx.compose.material3:material3-android:1.2.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/07afbce4841061e6f1f2b5a51cef5906/transformed/material3-release/AndroidManifest.xml:20:5-44
+MERGED from [io.coil-kt:coil-compose-base:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/c07b4369dfe63d5a3844eba065401f78/transformed/coil-compose-base-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-compose-base:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/c07b4369dfe63d5a3844eba065401f78/transformed/coil-compose-base-2.6.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-ripple-android:1.6.8] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/9bf4702296a5037cd0a111ac838ee3d0/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-ripple-android:1.6.8] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/9bf4702296a5037cd0a111ac838ee3d0/transformed/material-ripple-release/AndroidManifest.xml:5:5-44
 MERGED from [androidx.compose.material:material-icons-core-android:1.6.8] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/9b39e5d9aa91af88c9cf3d7b0fcc914f/transformed/material-icons-core-release/AndroidManifest.xml:5:5-44
@@ -275,12 +288,18 @@ MERGED from [androidx.work:work-runtime-ktx:2.9.1] /data/data/com.termux/files/h
 MERGED from [androidx.work:work-runtime-ktx:2.9.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/71ac311f0c2456223c795cdfcdc3623c/transformed/work-runtime-ktx-2.9.1/AndroidManifest.xml:20:5-44
 MERGED from [androidx.work:work-runtime:2.9.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/8746b618242250473de9a68b4afdceea/transformed/work-runtime-2.9.1/AndroidManifest.xml:21:5-44
 MERGED from [androidx.work:work-runtime:2.9.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/8746b618242250473de9a68b4afdceea/transformed/work-runtime-2.9.1/AndroidManifest.xml:21:5-44
+MERGED from [io.coil-kt:coil:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/7c08b8eb2173bd7e3dd15332b3996e6b/transformed/coil-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/7c08b8eb2173bd7e3dd15332b3996e6b/transformed/coil-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-base:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/d322093863c85f3d00c18522a3c0bef7/transformed/coil-base-2.6.0/AndroidManifest.xml:5:5-44
+MERGED from [io.coil-kt:coil-base:2.6.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/d322093863c85f3d00c18522a3c0bef7/transformed/coil-base-2.6.0/AndroidManifest.xml:5:5-44
 MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/08cc72e95a3bfa4152aa36dd582ea37b/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
 MERGED from [androidx.customview:customview-poolingcontainer:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/08cc72e95a3bfa4152aa36dd582ea37b/transformed/customview-poolingcontainer-1.0.0/AndroidManifest.xml:20:5-21:38
 MERGED from [androidx.core:core-ktx:1.13.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/20d1957d2dbfda9b4ede93fbf2b26b83/transformed/core-ktx-1.13.1/AndroidManifest.xml:5:5-44
 MERGED from [androidx.core:core-ktx:1.13.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/20d1957d2dbfda9b4ede93fbf2b26b83/transformed/core-ktx-1.13.1/AndroidManifest.xml:5:5-44
 MERGED from [androidx.browser:browser:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/859b8fd34c141b8b8702c3f7cf51280d/transformed/browser-1.4.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.browser:browser:1.4.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/859b8fd34c141b8b8702c3f7cf51280d/transformed/browser-1.4.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/da6de04ac58b4726af863f1f9033e180/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
+MERGED from [androidx.appcompat:appcompat-resources:1.6.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/da6de04ac58b4726af863f1f9033e180/transformed/appcompat-resources-1.6.1/AndroidManifest.xml:20:5-44
 MERGED from [androidx.emoji2:emoji2:1.3.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/25043ee26144717fecdcc5fa7660e7c1/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
 MERGED from [androidx.emoji2:emoji2:1.3.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/25043ee26144717fecdcc5fa7660e7c1/transformed/emoji2-1.3.0/AndroidManifest.xml:21:5-44
 MERGED from [androidx.autofill:autofill:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/d2233dfdf921fefa6de05d17b179a7ea/transformed/autofill-1.0.0/AndroidManifest.xml:20:5-22:41
@@ -289,6 +308,10 @@ MERGED from [androidx.loader:loader:1.0.0] /data/data/com.termux/files/home/.gra
 MERGED from [androidx.loader:loader:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/27d58e8a79f09a8ef7680c0ec07cb1f7/transformed/loader-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/4c2dbd03b7e69363873bb2c004a421f1/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.viewpager:viewpager:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/4c2dbd03b7e69363873bb2c004a421f1/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/d377a7978596b097fc0a321adb66935c/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/d377a7978596b097fc0a321adb66935c/transformed/vectordrawable-animated-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/2c759c935c527b1b32be69505bb05dab/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/2c759c935c527b1b32be69505bb05dab/transformed/vectordrawable-1.1.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.customview:customview:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/80e665e99d2a316ff05aec222cd85a80/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.customview:customview:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/80e665e99d2a316ff05aec222cd85a80/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.13.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/5d65c4bfed26fe0ee89407f6aedc46e8/transformed/core-1.13.1/AndroidManifest.xml:20:5-44
@@ -315,6 +338,8 @@ MERGED from [androidx.lifecycle:lifecycle-service:2.8.4] /data/data/com.termux/f
 MERGED from [androidx.lifecycle:lifecycle-service:2.8.4] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/e05254ec5e83db04e8698f2c1214ddd5/transformed/lifecycle-service-2.8.4/AndroidManifest.xml:5:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.8.4] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/33fc6c6a0f334876fcb2096734461d38/transformed/lifecycle-livedata-2.8.4/AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-livedata:2.8.4] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/33fc6c6a0f334876fcb2096734461d38/transformed/lifecycle-livedata-2.8.4/AndroidManifest.xml:20:5-44
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/3df5ea892c3e6a091268f5b8bf46b9f7/transformed/accompanist-drawablepainter-0.32.0/AndroidManifest.xml:21:5-44
+MERGED from [com.google.accompanist:accompanist-drawablepainter:0.32.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/3df5ea892c3e6a091268f5b8bf46b9f7/transformed/accompanist-drawablepainter-0.32.0/AndroidManifest.xml:21:5-44
 MERGED from [androidx.room:room-ktx:2.5.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/c5cce7a4018b520d90739d4aa3e8d16d/transformed/room-ktx-2.5.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.room:room-ktx:2.5.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/c5cce7a4018b520d90739d4aa3e8d16d/transformed/room-ktx-2.5.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-tasks:18.1.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/47e26adfe3981e4b67937206bfd79e08/transformed/play-services-tasks-18.1.0/AndroidManifest.xml:4:5-43
@@ -357,6 +382,8 @@ MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /data/data/com.te
 MERGED from [androidx.profileinstaller:profileinstaller:1.3.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/e1415fb929bd3c0395e7e229e5a9f854/transformed/profileinstaller-1.3.1/AndroidManifest.xml:21:5-44
 MERGED from [androidx.startup:startup-runtime:1.1.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/9701ea05e28d64a4c518bb36a53344a3/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
 MERGED from [androidx.startup:startup-runtime:1.1.1] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/9701ea05e28d64a4c518bb36a53344a3/transformed/startup-runtime-1.1.1/AndroidManifest.xml:21:5-23:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/6c9f56c32c1a6200e5493a6bf637f329/transformed/exifinterface-1.3.7/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.exifinterface:exifinterface:1.3.7] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/6c9f56c32c1a6200e5493a6bf637f329/transformed/exifinterface-1.3.7/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.tracing:tracing:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/f165085d777bd0c0b558bd8716142875/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.tracing:tracing:1.0.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/f165085d777bd0c0b558bd8716142875/transformed/tracing-1.0.0/AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.sqlite:sqlite:2.3.0] /data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/1131cd7be205d0b5dac6a3e5951095e4/transformed/sqlite-2.3.0/AndroidManifest.xml:20:5-44

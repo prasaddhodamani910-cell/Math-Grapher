@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.prasad.mathgrapher.app-mergeDebugResources-62:/values-watch-v20/values-watch-v20.xml",
+            "outputFile": "com.prasad.mathgrapher.app-mergeDebugResources-64:/values-watch-v20/values-watch-v20.xml",
             "map": [
                 {
                     "source": "/data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/42b73c208e831d8ae5ef39995b4aa21f/transformed/play-services-auth-21.1.1/res/values-watch-v20/values.xml",

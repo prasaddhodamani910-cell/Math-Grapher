@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.prasad.mathgrapher.app-mergeDebugResources-62:/values-en-rIN/values-en-rIN.xml",
+            "outputFile": "com.prasad.mathgrapher.app-mergeDebugResources-64:/values-en-rIN/values-en-rIN.xml",
             "map": [
                 {
                     "source": "/data/data/com.termux/files/home/.gradle/caches/9.7.1/transforms/0d37f397f39011e668ecf2218f8ee9c8/transformed/ui-release/res/values-en-rIN/values-en-rIN.xml",

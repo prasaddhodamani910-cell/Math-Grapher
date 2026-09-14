@@ -454,38 +454,3 @@ private fun HelpSection(title: String, body: String, examples: List<String>) {
     }
 }
 
-@Composable
-fun ProfileDialog(
-    user: GoogleUser,
-    onDismiss: () -> Unit,
-    onSignOut: () -> Unit
-) {
-    androidx.compose.material3.AlertDialog(
-        onDismissRequest = onDismiss,
-        title = { androidx.compose.material3.Text("Profile") },
-        text = {
-            androidx.compose.foundation.layout.Column {
-                androidx.compose.material3.Text("Display Name: ${user.name ?: "Unknown"}")
-                androidx.compose.foundation.layout.Spacer(modifier = androidx.compose.ui.Modifier.height(8.dp))
-                androidx.compose.material3.Text("Email: ${user.email ?: "Unknown"}")
-                androidx.compose.foundation.layout.Spacer(modifier = androidx.compose.ui.Modifier.height(8.dp))
-                androidx.compose.material3.Text("Signed in with: Google")
-            }
-        },
-        confirmButton = {
-            androidx.compose.material3.TextButton(onClick = onDismiss) {
-                androidx.compose.material3.Text("Close")
-            }
-        },
-        dismissButton = {
-            androidx.compose.material3.TextButton(
-                onClick = {
-                    onSignOut()
-                    onDismiss()
-                }
-            ) {
-                androidx.compose.material3.Text("Sign out", color = androidx.compose.material3.MaterialTheme.colorScheme.error)
-            }
-        }
-    )
-}
