@@ -15,7 +15,13 @@
     <string name="coordinate_format">(%1$.2f, %2$.2f)</string>
     <string name="equation_hint">y = </string>
     <string name="equation_placeholder">Try: y = x² − 3</string>
+    <string name="gcm_defaultSenderId" translatable="false">405263536624</string>
+    <string name="google_api_key" translatable="false">AIzaSyA3aiR_377_bMq8uFQVBK-A4gsRyKD3DRI</string>
+    <string name="google_app_id" translatable="false">1:405263536624:android:4de592b45aa96f083f0d35</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyA3aiR_377_bMq8uFQVBK-A4gsRyKD3DRI</string>
+    <string name="google_storage_bucket" translatable="false">math-grapher.firebasestorage.app</string>
     <string name="parse_error">Error at position %1$d: %2$s</string>
+    <string name="project_id" translatable="false">math-grapher</string>
     <string name="remove_equation">Remove equation</string>
     <string name="reset_viewport">Reset view</string>
     <string name="toggle_theme">Toggle theme</string>

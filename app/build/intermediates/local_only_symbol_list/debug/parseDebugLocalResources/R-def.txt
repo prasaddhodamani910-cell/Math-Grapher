@@ -18,7 +18,13 @@ string app_name
 string coordinate_format
 string equation_hint
 string equation_placeholder
+string gcm_defaultSenderId
+string google_api_key
+string google_app_id
+string google_crash_reporting_api_key
+string google_storage_bucket
 string parse_error
+string project_id
 string remove_equation
 string reset_viewport
 string toggle_theme

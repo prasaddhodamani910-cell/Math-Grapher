@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "405263536624",
+    "project_id": "math-grapher",
+    "storage_bucket": "math-grapher.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405263536624:android:4de592b45aa96f083f0d35",
+        "android_client_info": {
+          "package_name": "com.prasad.mathgrapher"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3aiR_377_bMq8uFQVBK-A4gsRyKD3DRI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

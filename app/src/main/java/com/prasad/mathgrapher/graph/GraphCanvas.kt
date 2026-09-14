@@ -9,6 +9,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -45,6 +51,17 @@ fun GraphCanvas(
     // Track actual canvas size
     var canvasWidth by remember { mutableFloatStateOf(1080f) }
     var canvasHeight by remember { mutableFloatStateOf(1920f) }
+    
+    val progressMap = remember { mutableStateMapOf<Int, Animatable<Float, AnimationVector1D>>() }
+
+    for (equation in equations) {
+        if (equation.error == null) {
+            val animatable = progressMap.getOrPut(equation.id) { Animatable(0f) }
+            LaunchedEffect(equation.id) {
+                animatable.animateTo(1f, animationSpec = tween(600, easing = FastOutSlowInEasing))
+            }
+        }
+    }
 
     Canvas(
         modifier = modifier
@@ -166,9 +183,9 @@ fun GraphCanvas(
                 }
                 yVal += minorYStep
             }
-        }
+        } // Close drawIntoCanvas
 
-        // --- Draw Curves ---
+    // --- Draw Curves ---
         for (equation in equations) {
             if (equation.error != null) continue
             val color = if (curveColors.isNotEmpty()) {
@@ -177,12 +194,14 @@ fun GraphCanvas(
                 Color.Red
             }
 
+            val progress = progressMap[equation.id]?.value ?: 1f
+
             try {
                 val eqType = equation.equationType
                 when (eqType) {
                     is com.prasad.mathgrapher.math.EquationType.Explicit -> {
                         val points = CurveSampler.sample(eqType.expr, viewport, screenWidth, screenHeight)
-                        drawCurveOrReportEmpty(equation.id, points, color, onEquationRuntimeStatus)
+                        drawCurveOrReportEmpty(equation.id, points, color, progress, onEquationRuntimeStatus)
                     }
                     is com.prasad.mathgrapher.math.EquationType.Implicit -> {
                         val segments = ImplicitSampler.sample(eqType.lhs, eqType.rhs, viewport, screenWidth, screenHeight)
@@ -191,29 +210,29 @@ fun GraphCanvas(
                         } else {
                             onEquationRuntimeStatus(equation.id, null)
                             for (seg in segments) {
-                                drawLine(color = color, start = Offset(seg.x1, seg.y1), end = Offset(seg.x2, seg.y2), strokeWidth = 3.dp.toPx())
+                                drawLine(color = color, start = Offset(seg.x1, seg.y1), end = Offset(seg.x2, seg.y2), strokeWidth = 3.dp.toPx(), alpha = progress)
                             }
                         }
                     }
                     is com.prasad.mathgrapher.math.EquationType.Parametric -> {
                         val points = ParametricSampler.sample(eqType.xExpr, eqType.yExpr, eqType.tMin, eqType.tMax, viewport, screenWidth, screenHeight)
-                        drawCurveOrReportEmpty(equation.id, points, color, onEquationRuntimeStatus)
+                        drawCurveOrReportEmpty(equation.id, points, color, progress, onEquationRuntimeStatus)
                     }
                     is com.prasad.mathgrapher.math.EquationType.Polar -> {
                         val points = PolarSampler.sample(eqType.rExpr, eqType.thetaMin, eqType.thetaMax, viewport, screenWidth, screenHeight)
-                        drawCurveOrReportEmpty(equation.id, points, color, onEquationRuntimeStatus)
+                        drawCurveOrReportEmpty(equation.id, points, color, progress, onEquationRuntimeStatus)
                     }
                     is com.prasad.mathgrapher.math.EquationType.Inequality -> {
                         val segments = ImplicitSampler.sample(eqType.lhs, eqType.rhs, viewport, screenWidth, screenHeight)
                         onEquationRuntimeStatus(equation.id, if (segments.isEmpty()) "No boundary found in the current view — try zooming out." else null)
                         for (seg in segments) {
-                            drawLine(color = color, start = Offset(seg.x1, seg.y1), end = Offset(seg.x2, seg.y2), strokeWidth = 2.dp.toPx())
+                            drawLine(color = color, start = Offset(seg.x1, seg.y1), end = Offset(seg.x2, seg.y2), strokeWidth = 2.dp.toPx(), alpha = progress)
                         }
                     }
                     null -> {
                         val ast = equation.ast ?: continue
                         val points = CurveSampler.sample(ast, viewport, screenWidth, screenHeight)
-                        drawCurveOrReportEmpty(equation.id, points, color, onEquationRuntimeStatus)
+                        drawCurveOrReportEmpty(equation.id, points, color, progress, onEquationRuntimeStatus)
                     }
                 }
             } catch (t: Throwable) {
@@ -269,38 +288,27 @@ fun GraphCanvas(
     }
 }
 
-private fun DrawScope.drawCurve(points: List<SamplePoint>, color: Color) {
+private fun DrawScope.drawCurve(points: List<SamplePoint>, color: Color, progress: Float = 1f) {
+    if (points.isEmpty()) return
+    val visibleCount = (points.size * progress).toInt().coerceIn(2, points.size)
+    val visiblePoints = points.subList(0, visibleCount)
+
     val path = Path()
     var pathStarted = false
-
-    for (i in points.indices) {
-        val point = points[i]
+    for (i in visiblePoints.indices) {
+        val point = visiblePoints[i]
         if (point.isValid) {
-            if (!pathStarted) {
-                path.moveTo(point.x, point.y)
-                pathStarted = true
-            } else {
-                // Check for discontinuity (large gap = asymptote)
-                if (i > 0 && points[i - 1].isValid) {
-                    val dy = abs(point.y - points[i - 1].y)
-                    if (dy > size.height * 0.8f) {
-                        // Likely an asymptote — break the path
-                        path.moveTo(point.x, point.y)
-                        continue
-                    }
+            if (!pathStarted) { path.moveTo(point.x, point.y); pathStarted = true }
+            else {
+                if (i > 0 && visiblePoints[i - 1].isValid) {
+                    val dy = abs(point.y - visiblePoints[i - 1].y)
+                    if (dy > size.height * 0.8f) { path.moveTo(point.x, point.y); continue }
                 }
                 path.lineTo(point.x, point.y)
             }
-        } else {
-            pathStarted = false
-        }
+        } else pathStarted = false
     }
-
-    drawPath(
-        path = path,
-        color = color,
-        style = Stroke(width = 3.dp.toPx())
-    )
+    drawPath(path = path, color = color, style = Stroke(width = 3.dp.toPx()))
 }
 
 private fun calculateNiceStep(range: Double, targetSteps: Int = 8): Double {
@@ -331,6 +339,7 @@ private fun DrawScope.drawCurveOrReportEmpty(
     id: Int,
     points: List<SamplePoint>,
     color: Color,
+    progress: Float,
     onStatus: (Int, String?) -> Unit
 ) {
     if (points.isEmpty()) {
@@ -342,6 +351,6 @@ private fun DrawScope.drawCurveOrReportEmpty(
         onStatus(id, "This equation has no visible points here — check for things like square roots of negative numbers, or try zooming out.")
     } else {
         onStatus(id, null)
-        drawCurve(points, color)
+        drawCurve(points, color, progress)
     }
 }
