@@ -18,15 +18,29 @@ An independent project built with curiosity, mathematics, and a lot of code.
 
 You can find all versions of the APK in the [`releases/`](./releases) folder of this repository, or download the latest version (`v1.7.5`) to enjoy cloud synchronization and animated profiles.
 
+
+
 *   **v1.7.5**: Added glassmorphic editable profiles, Coil image loading, Firestore cloud sync, animated mathematical sine-wave login background, and daily nudges.
+
+*   **v1.6.0**: UI improvements, bug fixes for parametric `t` detection, dark mode label visibility, expanded dialogs, and robust runtime error handling for equations.
+
 *   **v1.5.0**: Massive robustness update! Added a dedicated dual-input Parametric mode, gracefully handles unknown parameters as `1.0`, supports negative odd roots (e.g. `x^(1/3)`), and adds a Radians/Degrees angle toggle.
+
 *   **v1.4.0**: Complete UI Redesign! Added live math preview strip, live syntax highlighting in the input bar, horizontal scrollable equation chips, keyboard padding fixes, and translucent halos for axis labels.
+
 *   **v1.3.0**: Universal Equation Support! Introduced Marching Squares for implicit equations, parametric curves, polar functions, and inequalities without needing to switch modes manually.
+
 *   **v1.2.0**: The polished version featuring an edge-to-edge UI, fixed graph bounds clipping, proper negative grid scaling, and an updated professional dark theme with About/Credits dialogs.
+
 *   **v1.1.0**: The major UI overhaul implementing a bottom sheet, side vertical zoom controls, and a new color hierarchy.
+
 *   **v1.0.0 (fixed)**: The original functional release.
 
+
+
 *To install, simply download the APK file to your Android device and open it. Ensure you have "Install from unknown sources" enabled in your device settings.*
+
+
 
 ## 📄 License
 
