@@ -1,6 +1,9 @@
 # Math Grapher 📈
 
-Math Grapher is a professional, mobile-first graphing calculator application designed to help visualize mathematical functions directly on a coordinate plane. Built natively for Android using Kotlin and Jetpack Compose.
+Drawmath is a modern mathematical graphing app built to make exploring mathematics simple, visual, and interactive. It combines a clean Android interface with a powerful graphing engine for plotting equations and understanding mathematical concepts visually.
+The project is independently developed with a focus on simplicity, performance, privacy, and learning. It also includes secure cloud authentication and profile synchronization, allowing users to safely access their account across sessions.
+Created by Prasad Dhodamani
+An independent project built with curiosity, mathematics, and a lot of code.
 
 ## 🚀 Features
 
@@ -13,8 +16,9 @@ Math Grapher is a professional, mobile-first graphing calculator application des
 
 ## 📥 Download Versions
 
-You can find all versions of the APK in the [`releases/`](./releases) folder of this repository.
+You can find all versions of the APK in the [`releases/`](./releases) folder of this repository, or download the latest version (`v1.7.5`) to enjoy cloud synchronization and animated profiles.
 
+*   **v1.7.5**: Added glassmorphic editable profiles, Coil image loading, Firestore cloud sync, animated mathematical sine-wave login background, and daily nudges.
 *   **v1.5.0**: Massive robustness update! Added a dedicated dual-input Parametric mode, gracefully handles unknown parameters as `1.0`, supports negative odd roots (e.g. `x^(1/3)`), and adds a Radians/Degrees angle toggle.
 *   **v1.4.0**: Complete UI Redesign! Added live math preview strip, live syntax highlighting in the input bar, horizontal scrollable equation chips, keyboard padding fixes, and translucent halos for axis labels.
 *   **v1.3.0**: Universal Equation Support! Introduced Marching Squares for implicit equations, parametric curves, polar functions, and inequalities without needing to switch modes manually.
@@ -23,14 +27,6 @@ You can find all versions of the APK in the [`releases/`](./releases) folder of 
 *   **v1.0.0 (fixed)**: The original functional release.
 
 *To install, simply download the APK file to your Android device and open it. Ensure you have "Install from unknown sources" enabled in your device settings.*
-
-## 👨‍💻 Developer & Credits
-
-**Math Grapher**  
-Made by **Prasad Dhodamani**  
-**11th Standard Student**  
-Instagram: [@prasad.dhodamani](https://instagram.com/prasad.dhodamani)  
-Email: prasaddhodamani910@gmail.com  
 
 ## 📄 License
 

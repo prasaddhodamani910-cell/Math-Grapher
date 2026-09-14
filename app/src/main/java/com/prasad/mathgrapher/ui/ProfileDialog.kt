@@ -21,6 +21,7 @@ import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import com.prasad.mathgrapher.auth.AuthRepository
 import com.prasad.mathgrapher.auth.GoogleUser
+import com.prasad.mathgrapher.ui.theme.LocalMathGrapherColors
 import kotlinx.coroutines.launch
 
 @Composable
@@ -35,6 +36,7 @@ fun ProfileDialog(
     
     var customName by remember { mutableStateOf(user.name ?: "") }
     var customPhotoUrl by remember { mutableStateOf(user.photoUrl ?: "") }
+    val mathColors = LocalMathGrapherColors.current
     
     // Load existing custom profile if available
     LaunchedEffect(user.uid) {
@@ -61,7 +63,7 @@ fun ProfileDialog(
                     modifier = Modifier
                         .size(120.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.primaryContainer)
+                        .background(mathColors.surfaceElevated)
                         .border(4.dp, MaterialTheme.colorScheme.primary, CircleShape),
                     contentAlignment = Alignment.Center
                 ) {
@@ -77,7 +79,7 @@ fun ProfileDialog(
                             imageVector = Icons.Default.Person,
                             contentDescription = null,
                             modifier = Modifier.size(60.dp),
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer
+                            tint = mathColors.onSurfaceMuted
                         )
                     }
                 }
@@ -90,7 +92,13 @@ fun ProfileDialog(
                         onValueChange = { customName = it },
                         label = { Text("Display Name") },
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(12.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = mathColors.onSurfaceMuted,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        )
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     OutlinedTextField(
@@ -98,7 +106,13 @@ fun ProfileDialog(
                         onValueChange = { customPhotoUrl = it },
                         label = { Text("Photo URL") },
                         modifier = Modifier.fillMaxWidth(),
-                        shape = RoundedCornerShape(12.dp)
+                        shape = RoundedCornerShape(12.dp),
+                        colors = OutlinedTextFieldDefaults.colors(
+                            focusedBorderColor = MaterialTheme.colorScheme.primary,
+                            unfocusedBorderColor = mathColors.onSurfaceMuted,
+                            focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                            unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                        )
                     )
                     Spacer(modifier = Modifier.height(24.dp))
                     
@@ -107,7 +121,7 @@ fun ProfileDialog(
                         horizontalArrangement = Arrangement.SpaceEvenly
                     ) {
                         TextButton(onClick = { isEditing = false }) {
-                            Text("Cancel")
+                            Text("Cancel", color = mathColors.onSurfaceMuted)
                         }
                         Button(
                             onClick = {
@@ -118,12 +132,13 @@ fun ProfileDialog(
                                     isEditing = false
                                 }
                             },
-                            enabled = !isSaving
+                            enabled = !isSaving,
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                         ) {
                             if (isSaving) {
-                                CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
+                                CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp, color = MaterialTheme.colorScheme.background)
                             } else {
-                                Text("Save Changes")
+                                Text("Save Changes", color = MaterialTheme.colorScheme.background)
                             }
                         }
                     }
@@ -137,17 +152,17 @@ fun ProfileDialog(
                     Text(
                         text = user.email ?: "No email",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        color = mathColors.onSurfaceMuted
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     TextButton(onClick = { isEditing = true }) {
-                        Icon(Icons.Default.Edit, contentDescription = null, modifier = Modifier.size(16.dp))
+                        Icon(Icons.Default.Edit, contentDescription = null, modifier = Modifier.size(16.dp), tint = MaterialTheme.colorScheme.primary)
                         Spacer(Modifier.width(4.dp))
-                        Text("Edit Profile")
+                        Text("Edit Profile", color = MaterialTheme.colorScheme.primary)
                     }
                     
                     Spacer(modifier = Modifier.height(24.dp))
-                    Divider()
+                    HorizontalDivider(color = mathColors.surfaceElevated)
                     Spacer(modifier = Modifier.height(16.dp))
                     
                     Row(
@@ -156,17 +171,18 @@ fun ProfileDialog(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         TextButton(onClick = onDismiss) {
-                            Text("Close")
+                            Text("Close", color = MaterialTheme.colorScheme.primary)
                         }
                         Button(
                             onClick = {
                                 onSignOut()
                                 onDismiss()
                             },
-                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.errorContainer),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surface),
+                            border = androidx.compose.foundation.BorderStroke(1.dp, Color.Red),
                             shape = RoundedCornerShape(12.dp)
                         ) {
-                            Text("Sign out", color = MaterialTheme.colorScheme.onErrorContainer)
+                            Text("Sign out", color = Color.Red)
                         }
                     }
                 }

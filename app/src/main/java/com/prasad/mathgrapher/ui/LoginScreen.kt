@@ -25,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.prasad.mathgrapher.R
 import com.prasad.mathgrapher.auth.GoogleUser
 import com.prasad.mathgrapher.auth.signInWithGoogle
+import com.prasad.mathgrapher.ui.theme.LocalMathGrapherColors
 import kotlinx.coroutines.launch
 import kotlin.math.sin
 
@@ -39,7 +40,8 @@ fun AnimatedMathBackground() {
     )
 
     val primaryColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f)
-    val secondaryColor = MaterialTheme.colorScheme.secondary.copy(alpha = 0.3f)
+    val mathColors = LocalMathGrapherColors.current
+    val secondaryColor = if (mathColors.curveColors.isNotEmpty()) mathColors.curveColors[1].copy(alpha = 0.3f) else primaryColor
 
     Canvas(modifier = Modifier.fillMaxSize()) {
         val path1 = Path()
@@ -93,6 +95,7 @@ fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
     var isSigningIn by rememberSaveable { mutableStateOf(false) }
     var errorMessage by rememberSaveable { mutableStateOf<String?>(null) }
     var visible by remember { mutableStateOf(false) }
+    val mathColors = LocalMathGrapherColors.current
     
     LaunchedEffect(Unit) { visible = true }
     
@@ -105,7 +108,7 @@ fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
                     Brush.verticalGradient(
                         colors = listOf(
                             MaterialTheme.colorScheme.background,
-                            MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                            mathColors.surfaceElevated.copy(alpha = 0.5f)
                         )
                     )
                 )
@@ -125,7 +128,7 @@ fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
                 Card(
                     modifier = Modifier.fillMaxWidth().wrapContentHeight(),
                     shape = RoundedCornerShape(24.dp),
-                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.9f)),
+                    colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f)),
                     elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                 ) {
                     Column(
@@ -143,18 +146,19 @@ fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
                         Text(
                             "Visualize your equations beautifully.",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                            color = mathColors.onSurfaceMuted
                         )
                         Spacer(Modifier.height(48.dp))
                         
                         if (errorMessage != null) {
                             Card(
-                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
-                                modifier = Modifier.padding(bottom = 16.dp).fillMaxWidth()
+                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                                modifier = Modifier.padding(bottom = 16.dp).fillMaxWidth(),
+                                border = androidx.compose.foundation.BorderStroke(1.dp, Color.Red)
                             ) {
                                 Text(
                                     text = errorMessage!!,
-                                    color = MaterialTheme.colorScheme.onErrorContainer,
+                                    color = Color.Red,
                                     style = MaterialTheme.typography.bodySmall,
                                     modifier = Modifier.padding(12.dp)
                                 )
@@ -185,12 +189,13 @@ fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
                                 }
                             },
                             modifier = Modifier.fillMaxWidth().height(56.dp),
-                            shape = RoundedCornerShape(16.dp)
+                            shape = RoundedCornerShape(16.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
                         ) {
                             if (isSigningIn) {
-                                CircularProgressIndicator(modifier = Modifier.size(24.dp), color = MaterialTheme.colorScheme.onPrimary, strokeWidth = 2.dp)
+                                CircularProgressIndicator(modifier = Modifier.size(24.dp), color = MaterialTheme.colorScheme.background, strokeWidth = 2.dp)
                             } else {
-                                Text("Sign in with Google", fontWeight = FontWeight.Bold)
+                                Text("Sign in with Google", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.background)
                             }
                         }
                         
@@ -201,7 +206,7 @@ fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
                             enabled = !isSigningIn,
                             modifier = Modifier.fillMaxWidth().height(48.dp)
                         ) {
-                            Text("Skip for now")
+                            Text("Skip for now", color = MaterialTheme.colorScheme.primary)
                         }
                     }
                 }

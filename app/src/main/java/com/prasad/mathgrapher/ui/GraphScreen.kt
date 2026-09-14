@@ -400,45 +400,55 @@ fun GraphScreen(
 
         if (showCreditsDialog) {
             val context = LocalContext.current
-            AlertDialog(
-                onDismissRequest = { showCreditsDialog = false },
-                title = { Text("Credits") },
-                text = {
-                    Column {
-                        Text("Developer: Prasad Dhodamani")
-                        Spacer(modifier = Modifier.height(4.dp))
-                        Text("11th Standard Student")
-                        Spacer(modifier = Modifier.height(16.dp))
-                        
+            androidx.compose.ui.window.Dialog(onDismissRequest = { showCreditsDialog = false }) {
+                androidx.compose.material3.Card(
+                    modifier = Modifier.fillMaxWidth().padding(16.dp),
+                    shape = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
+                    colors = androidx.compose.material3.CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+                    elevation = androidx.compose.material3.CardDefaults.cardElevation(defaultElevation = 12.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(24.dp).fillMaxWidth()
+                    ) {
                         Text(
-                            text = "Instagram: @prasad.dhodamani",
-                            modifier = Modifier.clickable {
-                                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://instagram.com/prasad.dhodamani"))
-                                context.startActivity(intent)
-                            },
+                            "Credits",
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
                             color = MaterialTheme.colorScheme.primary
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Text(
+                            "Drawmath is a modern mathematical graphing app built to make exploring mathematics simple, visual, and interactive. It combines a clean Android interface with a powerful graphing engine for plotting equations and understanding mathematical concepts visually.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(
-                            text = "Email: prasaddhodamani910@gmail.com",
-                            modifier = Modifier.clickable {
-                                val intent = Intent(Intent.ACTION_SENDTO).apply {
-                                    data = Uri.parse("mailto:prasaddhodamani910@gmail.com")
-                                }
-                                context.startActivity(intent)
-                            },
-                            color = MaterialTheme.colorScheme.primary
+                            "The project is independently developed with a focus on simplicity, performance, privacy, and learning. It also includes secure cloud authentication and profile synchronization, allowing users to safely access their account across sessions.",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Spacer(modifier = Modifier.height(16.dp))
-                        Text("13 September 2026")
-                    }
-                },
-                confirmButton = {
-                    TextButton(onClick = { showCreditsDialog = false }) {
-                        Text("Close")
+                        Text(
+                            "Created by Prasad Dhodamani",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Text(
+                            "An independent project built with curiosity, mathematics, and a lot of code.",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = mathColors.onSurfaceMuted
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                            TextButton(onClick = { showCreditsDialog = false }) {
+                                Text("Close", color = MaterialTheme.colorScheme.primary)
+                            }
+                        }
                     }
                 }
-            )
+            }
         }
     }
 }
