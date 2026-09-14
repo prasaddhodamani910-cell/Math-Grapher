@@ -64,7 +64,14 @@ class MainActivity : ComponentActivity() {
                     onSkip = { skippedLogin = true }
                 )
             } else {
-                GraphScreen()
+                GraphScreen(
+                    user = user,
+                    onSignOut = {
+                        FirebaseAuth.getInstance().signOut()
+                        user = null
+                        skippedLogin = false
+                    }
+                )
             }
         }
     }

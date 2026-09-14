@@ -69,7 +69,14 @@ fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
                         scope.launch {
                             val user = signInWithGoogle(context)
                             isSigningIn = false
-                            if (user != null) onSignedIn(user)
+                            if (user != null) {
+                                try {
+                                    com.prasad.mathgrapher.auth.AuthRepository.saveUserProfile(user)
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                }
+                                onSignedIn(user)
+                            }
                         }
                     },
                     modifier = Modifier.fillMaxWidth(0.8f).height(50.dp)

@@ -12,7 +12,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.prasad.mathgrapher.R
 import kotlinx.coroutines.tasks.await
 
-private const val WEB_CLIENT_ID = "PASTE_YOUR_WEB_CLIENT_ID_HERE.apps.googleusercontent.com"
+private const val WEB_CLIENT_ID = "405263536624-qdkb4ckabcrl8hmrifet00tctu2e49hc.apps.googleusercontent.com"
 
 data class GoogleUser(val name: String?, val email: String?, val photoUrl: String?, val uid: String)
 

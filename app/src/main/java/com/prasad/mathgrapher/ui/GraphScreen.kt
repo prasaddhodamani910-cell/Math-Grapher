@@ -53,9 +53,12 @@ import androidx.compose.material3.Divider
 
 import com.prasad.mathgrapher.ui.theme.LocalMathGrapherColors
 import com.prasad.mathgrapher.ui.theme.MathGrapherTheme
+import com.prasad.mathgrapher.auth.GoogleUser
 
 @Composable
 fun GraphScreen(
+    user: GoogleUser? = null,
+    onSignOut: () -> Unit = {},
     viewModel: GraphViewModel = viewModel()
 ) {
     val systemDark = isSystemInDarkTheme()
@@ -66,6 +69,7 @@ fun GraphScreen(
         var showMenu by rememberSaveable { mutableStateOf(false) }
         var showAboutDialog by rememberSaveable { mutableStateOf(false) }
         var showCreditsDialog by rememberSaveable { mutableStateOf(false) }
+        var showProfileDialog by rememberSaveable { mutableStateOf(false) }
         val mathColors = LocalMathGrapherColors.current
         var inputText by rememberSaveable { mutableStateOf("") }
         val equations = viewModel.equations
@@ -120,6 +124,16 @@ fun GraphScreen(
                             Divider(modifier = Modifier.padding(vertical = 4.dp))
 
                             // --- Info ---
+                            if (user != null) {
+                                DropdownMenuItem(
+                                    text = { Text("Profile") },
+                                    leadingIcon = { Text("\uD83D\uDC64", fontSize = 16.sp) },
+                                    onClick = {
+                                        showMenu = false
+                                        showProfileDialog = true
+                                    }
+                                )
+                            }
                             DropdownMenuItem(
                                 text = { Text("Help — how to write equations") },
                                 leadingIcon = { Text("❓", fontSize = 16.sp) },
@@ -376,6 +390,14 @@ fun GraphScreen(
             )
         }
 
+        if (showProfileDialog && user != null) {
+            ProfileDialog(
+                user = user,
+                onDismiss = { showProfileDialog = false },
+                onSignOut = onSignOut
+            )
+        }
+
         if (showCreditsDialog) {
             val context = LocalContext.current
             AlertDialog(
@@ -430,4 +452,40 @@ private fun HelpSection(title: String, body: String, examples: List<String>) {
             Text("→ $ex", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
         }
     }
+}
+
+@Composable
+fun ProfileDialog(
+    user: GoogleUser,
+    onDismiss: () -> Unit,
+    onSignOut: () -> Unit
+) {
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { androidx.compose.material3.Text("Profile") },
+        text = {
+            androidx.compose.foundation.layout.Column {
+                androidx.compose.material3.Text("Display Name: ${user.name ?: "Unknown"}")
+                androidx.compose.foundation.layout.Spacer(modifier = androidx.compose.ui.Modifier.height(8.dp))
+                androidx.compose.material3.Text("Email: ${user.email ?: "Unknown"}")
+                androidx.compose.foundation.layout.Spacer(modifier = androidx.compose.ui.Modifier.height(8.dp))
+                androidx.compose.material3.Text("Signed in with: Google")
+            }
+        },
+        confirmButton = {
+            androidx.compose.material3.TextButton(onClick = onDismiss) {
+                androidx.compose.material3.Text("Close")
+            }
+        },
+        dismissButton = {
+            androidx.compose.material3.TextButton(
+                onClick = {
+                    onSignOut()
+                    onDismiss()
+                }
+            ) {
+                androidx.compose.material3.Text("Sign out", color = androidx.compose.material3.MaterialTheme.colorScheme.error)
+            }
+        }
+    )
 }
