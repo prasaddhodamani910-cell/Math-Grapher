@@ -80,7 +80,7 @@ fun LoginScreen(onSignedIn: (GoogleUser) -> Unit, onSkip: () -> Unit) {
                             result.fold(
                                 onSuccess = { user ->
                                     try {
-                                        com.prasad.mathgrapher.auth.AuthRepository.saveUserProfile(user)
+                                        scope.launch { com.prasad.mathgrapher.auth.AuthRepository.saveUserProfile(user) }
                                     } catch (e: Exception) {
                                         e.printStackTrace()
                                     }
