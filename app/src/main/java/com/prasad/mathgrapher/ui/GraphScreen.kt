@@ -22,6 +22,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -47,6 +48,9 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.prasad.mathgrapher.graph.GraphCanvas
 import com.prasad.mathgrapher.graph.GraphViewModel
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Divider
+
 import com.prasad.mathgrapher.ui.theme.LocalMathGrapherColors
 import com.prasad.mathgrapher.ui.theme.MathGrapherTheme
 
@@ -58,6 +62,7 @@ fun GraphScreen(
     var isDarkTheme by rememberSaveable { mutableStateOf(true) } // Default to dark first
 
     MathGrapherTheme(darkTheme = isDarkTheme) {
+        var showHelpDialog by rememberSaveable { mutableStateOf(false) }
         var showMenu by rememberSaveable { mutableStateOf(false) }
         var showAboutDialog by rememberSaveable { mutableStateOf(false) }
         var showCreditsDialog by rememberSaveable { mutableStateOf(false) }
@@ -94,31 +99,47 @@ fun GraphScreen(
                         }
                         DropdownMenu(
                             expanded = showMenu,
-                            onDismissRequest = { showMenu = false }
+                            onDismissRequest = { showMenu = false },
+                            modifier = Modifier.width(230.dp)
                         ) {
+                            // --- Settings ---
                             DropdownMenuItem(
-                                text = { Text(if (com.prasad.mathgrapher.math.Evaluator.isDegreesMode) "Angle: Degrees" else "Angle: Radians") },
-                                onClick = { 
-                                    com.prasad.mathgrapher.math.Evaluator.isDegreesMode = !com.prasad.mathgrapher.math.Evaluator.isDegreesMode
-                                    // Trigger a recomposition and re-evaluation. A clean way without architecture changes is to just nudge the viewport.
-                                    viewModel.panViewport(0f, 0f, 100f, 100f)
-                                    showMenu = false 
+                                text = {
+                                    Column {
+                                        Text("Angle unit", style = MaterialTheme.typography.labelSmall, color = mathColors.onSurfaceMuted)
+                                        Text(if (viewModel.isDegreesMode.value) "Degrees" else "Radians", fontWeight = FontWeight.Medium)
+                                    }
+                                },
+                                leadingIcon = { Text("∠", fontSize = 18.sp) },
+                                onClick = {
+                                    viewModel.toggleAngleMode()
+                                    showMenu = false
+                                }
+                            )
+
+                            Divider(modifier = Modifier.padding(vertical = 4.dp))
+
+                            // --- Info ---
+                            DropdownMenuItem(
+                                text = { Text("Help — how to write equations") },
+                                leadingIcon = { Text("❓", fontSize = 16.sp) },
+                                onClick = {
+                                    showMenu = false
+                                    showHelpDialog = true
                                 }
                             )
                             DropdownMenuItem(
-                                text = { Text("Add") },
-                                onClick = { showMenu = false }
-                            )
-                            DropdownMenuItem(
                                 text = { Text("About") },
-                                onClick = { 
-                                    showMenu = false 
+                                leadingIcon = { Icon(imageVector = Icons.Default.Info, contentDescription = null) },
+                                onClick = {
+                                    showMenu = false
                                     showAboutDialog = true
                                 }
                             )
                             DropdownMenuItem(
                                 text = { Text("Credits") },
-                                onClick = { 
+                                leadingIcon = { Text("★", fontSize = 16.sp) },
+                                onClick = {
                                     showMenu = false
                                     showCreditsDialog = true
                                 }
@@ -149,6 +170,9 @@ fun GraphScreen(
                         },
                         onTap = { x, y, width, height ->
                             viewModel.inspectPoint(x, y, width, height)
+                        },
+                        onEquationRuntimeStatus = { id, message -> 
+                            viewModel.setRuntimeNote(id, message) 
                         },
                         mathColors = mathColors,
                         modifier = Modifier.fillMaxSize()
@@ -267,11 +291,83 @@ fun GraphScreen(
             }
         }
 
+        if (showHelpDialog) {
+            AlertDialog(
+                onDismissRequest = { showHelpDialog = false },
+                title = { Text("How to write equations") },
+                text = {
+                    LazyColumn(modifier = Modifier.height(420.dp)) {
+                        item {
+                            Text(
+                                "This app understands 5 kinds of equations. Pick the form that " +
+                                "matches what you're trying to graph:",
+                                modifier = Modifier.padding(bottom = 12.dp)
+                            )
+                        }
+                        item { HelpSection(
+                            title = "1. Explicit — y in terms of x",
+                            body = "Write it starting with \"y =\". Covers lines, parabolas, " +
+                                   "sine/cosine waves, anything you can solve for y.",
+                            examples = listOf("y = 2*x + 1", "y = x^2 - 4", "y = sin(x)")
+                        ) }
+                        item { HelpSection(
+                            title = "2. Implicit — x and y mixed together",
+                            body = "No clean \"y =\" form. Used for circles, ellipses, and " +
+                                   "curves where y can't be isolated.",
+                            examples = listOf("x^2 + y^2 = 25", "x^2/4 + y^2/9 = 1")
+                        ) }
+                        item { HelpSection(
+                            title = "3. Parametric — both x and y depend on t",
+                            body = "Separate the x-part and y-part with a comma. Great for " +
+                                   "circles, spirals, and anything that looks like motion.",
+                            examples = listOf("x = cos(t), y = sin(t)", "x = t, y = t^2")
+                        ) }
+                        item { HelpSection(
+                            title = "4. Polar — distance from center depends on angle",
+                            body = "Start with \"r =\". Used for spirals, roses, and cardioids.",
+                            examples = listOf("r = 2 + 2*cos(theta)", "r = theta")
+                        ) }
+                        item { HelpSection(
+                            title = "5. Inequality — shade a region instead of a line",
+                            body = "Use <, >, <=, or >= instead of =.",
+                            examples = listOf("y < x^2", "x^2 + y^2 <= 9")
+                        ) }
+                        item {
+                            Text(
+                                "Common mistakes",
+                                style = MaterialTheme.typography.titleSmall,
+                                modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
+                            )
+                            Text("• Function names need parentheses: write sin(x), not sinx.")
+                            Text("• Use * for multiplication: 2*x, not 2x written as \"2x\" alone works, but a*b needs the star.")
+                            Text("• Use ^ for powers: x^2, not x².")
+                            Text("• Parametric equations need a comma between the x-part and y-part.")
+                        }
+                    }
+                },
+                confirmButton = {
+                    TextButton(onClick = { showHelpDialog = false }) { Text("Got it") }
+                }
+            )
+        }
+
         if (showAboutDialog) {
             AlertDialog(
                 onDismissRequest = { showAboutDialog = false },
                 title = { Text("About") },
-                text = { Text("Math Grapher is a powerful tool to graph mathematical equations.") },
+                text = {
+                    Column {
+                        Text("Math Grapher graphs 5 kinds of equations:")
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("• Explicit (y = ...) — lines, parabolas, trig curves")
+                        Text("• Implicit (x and y mixed) — circles, ellipses")
+                        Text("• Parametric (x = ..., y = ...) — motion-style curves")
+                        Text("• Polar (r = ...) — spirals, roses, cardioids")
+                        Text("• Inequalities (<, >, <=, >=) — shaded regions")
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text("Open Help from the ⋮ menu for the full writing guide with examples.")
+                    }
+                },
                 confirmButton = {
                     TextButton(onClick = { showAboutDialog = false }) {
                         Text("Close")
@@ -321,6 +417,17 @@ fun GraphScreen(
                     }
                 }
             )
+        }
+    }
+}
+
+@Composable
+private fun HelpSection(title: String, body: String, examples: List<String>) {
+    Column(modifier = Modifier.padding(bottom = 14.dp)) {
+        Text(title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+        Text(body, style = MaterialTheme.typography.bodySmall, modifier = Modifier.padding(top = 2.dp, bottom = 4.dp))
+        examples.forEach { ex ->
+            Text("→ $ex", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.primary)
         }
     }
 }

@@ -17,6 +17,7 @@ data class Equation(
     val ast: AstNode? = null,
     val equationType: EquationType? = null,
     val error: String? = null,
+    val runtimeNote: String? = null,
     val colorIndex: Int = 0
 )
 
@@ -27,6 +28,13 @@ class GraphViewModel : ViewModel() {
     private val _equations = mutableStateListOf<Equation>()
     val equations: List<Equation> get() = _equations
     
+    fun setRuntimeNote(id: Int, message: String?) {
+        val index = _equations.indexOfFirst { it.id == id }
+        if (index != -1 && _equations[index].runtimeNote != message) {
+            _equations[index] = _equations[index].copy(runtimeNote = message)
+        }
+    }
+    
     private val _currentInput = mutableStateOf("")
     val currentInput: State<String> = _currentInput
     
@@ -35,6 +43,14 @@ class GraphViewModel : ViewModel() {
     
     private var nextId = 0
     private var nextColorIndex = 0
+    
+    private val _isDegreesMode = mutableStateOf(com.prasad.mathgrapher.math.Evaluator.isDegreesMode)
+    val isDegreesMode: State<Boolean> = _isDegreesMode
+
+    fun toggleAngleMode() {
+        com.prasad.mathgrapher.math.Evaluator.isDegreesMode = !com.prasad.mathgrapher.math.Evaluator.isDegreesMode
+        _isDegreesMode.value = com.prasad.mathgrapher.math.Evaluator.isDegreesMode
+    }
     
     fun updateInput(text: String) {
         _currentInput.value = text

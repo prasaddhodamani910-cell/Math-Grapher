@@ -1,6 +1,7 @@
 package com.prasad.mathgrapher.math
 
 object EquationClassifier {
+    private val STANDALONE_T = Regex("(?<![a-zA-Z])t(?![a-zA-Z])")
 
     fun classify(input: String): EquationType {
         // Sanitize
@@ -15,7 +16,7 @@ object EquationClassifier {
         }
         
         // 3. Parametric
-        if (str.contains(",") && (str.contains("t") || str.contains(" t ") || str.contains("t="))) {
+        if (str.contains(",") && STANDALONE_T.containsMatchIn(str)) {
             val parts = str.split(",", limit = 2)
             if (parts.size == 2) {
                 var xPart = parts[0].trim()

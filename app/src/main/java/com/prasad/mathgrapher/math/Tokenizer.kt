@@ -48,7 +48,7 @@ class Tokenizer(private val input: String) {
                     }
                 }
                 char.isDigit() || char == '.' -> tokens.add(readNumber())
-                char.isLetter() -> tokens.add(readIdentifier())
+                char.isLetter() -> tokens.addAll(readIdentifierTokens())
                 else -> throw MathException.UnexpectedToken(char.toString(), pos)
             }
         }
@@ -86,12 +86,31 @@ class Tokenizer(private val input: String) {
         return Token(TokenType.NUMBER, value, startPos)
     }
     
-    private fun readIdentifier(): Token {
+    private val KNOWN_WORDS = KNOWN_FUNCTIONS + setOf("pi", "e")
+    
+    private fun readIdentifierTokens(): List<Token> {
         val startPos = pos
         while (pos < input.length && input[pos].isLetter()) {
             pos++
         }
-        return Token(TokenType.IDENTIFIER, input.substring(startPos, pos), startPos)
+        val word = input.substring(startPos, pos)
+    
+        if (KNOWN_WORDS.contains(word)) {
+            return listOf(Token(TokenType.IDENTIFIER, word, startPos))
+        }
+    
+        for (fn in KNOWN_FUNCTIONS.sortedByDescending { it.length }) {
+            if (word.length > fn.length && word.startsWith(fn)) {
+                val result = mutableListOf(Token(TokenType.IDENTIFIER, fn, startPos))
+                val rest = word.substring(fn.length)
+                for ((idx, ch) in rest.withIndex()) {
+                    result.add(Token(TokenType.IDENTIFIER, ch.toString(), startPos + fn.length + idx))
+                }
+                return result
+            }
+        }
+    
+        return word.mapIndexed { idx, ch -> Token(TokenType.IDENTIFIER, ch.toString(), startPos + idx) }
     }
     
     private fun insertImplicitMultiplication(tokens: List<Token>): List<Token> {
@@ -114,6 +133,10 @@ class Tokenizer(private val input: String) {
             } else if (prevToken.type == TokenType.RPAREN && currentToken.type == TokenType.LPAREN) {
                 insertStar = true
             } else if (prevToken.type == TokenType.IDENTIFIER && currentToken.type == TokenType.LPAREN) {
+                if (!KNOWN_FUNCTIONS.contains(prevToken.value)) {
+                    insertStar = true
+                }
+            } else if (prevToken.type == TokenType.IDENTIFIER && currentToken.type == TokenType.IDENTIFIER) {
                 if (!KNOWN_FUNCTIONS.contains(prevToken.value)) {
                     insertStar = true
                 }

@@ -24,6 +24,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,6 +61,8 @@ fun EquationList(
         }
         return
     }
+
+    var errorDialogFor by remember { mutableStateOf<Equation?>(null) }
 
     LazyRow(
         modifier = modifier
@@ -97,6 +105,13 @@ fun EquationList(
                         )
                         Spacer(modifier = Modifier.width(8.dp))
                         
+                        val statusMessage = equation.error ?: equation.runtimeNote
+                        val textColor = when {
+                            equation.error != null -> MaterialTheme.colorScheme.error
+                            equation.runtimeNote != null -> mathColors.onSurfaceMuted
+                            else -> MaterialTheme.colorScheme.onSurface
+                        }
+                        
                         // Equation text
                         Text(
                             text = equation.text.take(15) + if (equation.text.length > 15) "..." else "",
@@ -105,10 +120,9 @@ fun EquationList(
                                 fontSize = 16.sp, 
                                 fontWeight = FontWeight.Medium
                             ),
-                            color = if (equation.error != null) {
-                                MaterialTheme.colorScheme.error
-                            } else {
-                                MaterialTheme.colorScheme.onSurface
+                            color = textColor,
+                            modifier = Modifier.clickable(enabled = statusMessage != null) {
+                                errorDialogFor = equation
                             }
                         )
                         Spacer(modifier = Modifier.width(8.dp))
@@ -126,5 +140,16 @@ fun EquationList(
                 }
             }
         }
+    }
+    
+    errorDialogFor?.let { eq ->
+        AlertDialog(
+            onDismissRequest = { errorDialogFor = null },
+            title = { Text(if (eq.error != null) "Couldn't graph this" else "Nothing to show") },
+            text = { Text(eq.error ?: eq.runtimeNote ?: "") },
+            confirmButton = {
+                TextButton(onClick = { errorDialogFor = null }) { Text("OK") }
+            }
+        )
     }
 }

@@ -38,6 +38,7 @@ fun GraphCanvas(
     onPan: (dx: Float, dy: Float, screenWidth: Float, screenHeight: Float) -> Unit,
     onZoom: (factor: Float, focusX: Float, focusY: Float, screenWidth: Float, screenHeight: Float) -> Unit,
     onTap: (x: Float, y: Float, screenWidth: Float, screenHeight: Float) -> Unit,
+    onEquationRuntimeStatus: (id: Int, message: String?) -> Unit,
     mathColors: com.prasad.mathgrapher.ui.theme.MathGrapherColors,
     modifier: Modifier = Modifier
 ) {
@@ -176,50 +177,50 @@ fun GraphCanvas(
                 Color.Red
             }
 
-            val eqType = equation.equationType
-            when (eqType) {
-                is com.prasad.mathgrapher.math.EquationType.Explicit -> {
-                    val ast = eqType.expr
-                    val points = CurveSampler.sample(ast, viewport, screenWidth, screenHeight)
-                    if (points.isNotEmpty()) drawCurve(points, color)
-                }
-                is com.prasad.mathgrapher.math.EquationType.Implicit -> {
-                    val segments = ImplicitSampler.sample(eqType.lhs, eqType.rhs, viewport, screenWidth, screenHeight)
-                    for (seg in segments) {
-                        drawLine(
-                            color = color,
-                            start = Offset(seg.x1, seg.y1),
-                            end = Offset(seg.x2, seg.y2),
-                            strokeWidth = 3.dp.toPx()
-                        )
+            try {
+                val eqType = equation.equationType
+                when (eqType) {
+                    is com.prasad.mathgrapher.math.EquationType.Explicit -> {
+                        val points = CurveSampler.sample(eqType.expr, viewport, screenWidth, screenHeight)
+                        drawCurveOrReportEmpty(equation.id, points, color, onEquationRuntimeStatus)
+                    }
+                    is com.prasad.mathgrapher.math.EquationType.Implicit -> {
+                        val segments = ImplicitSampler.sample(eqType.lhs, eqType.rhs, viewport, screenWidth, screenHeight)
+                        if (segments.isEmpty()) {
+                            onEquationRuntimeStatus(equation.id, "No solutions found in the current view — try zooming out.")
+                        } else {
+                            onEquationRuntimeStatus(equation.id, null)
+                            for (seg in segments) {
+                                drawLine(color = color, start = Offset(seg.x1, seg.y1), end = Offset(seg.x2, seg.y2), strokeWidth = 3.dp.toPx())
+                            }
+                        }
+                    }
+                    is com.prasad.mathgrapher.math.EquationType.Parametric -> {
+                        val points = ParametricSampler.sample(eqType.xExpr, eqType.yExpr, eqType.tMin, eqType.tMax, viewport, screenWidth, screenHeight)
+                        drawCurveOrReportEmpty(equation.id, points, color, onEquationRuntimeStatus)
+                    }
+                    is com.prasad.mathgrapher.math.EquationType.Polar -> {
+                        val points = PolarSampler.sample(eqType.rExpr, eqType.thetaMin, eqType.thetaMax, viewport, screenWidth, screenHeight)
+                        drawCurveOrReportEmpty(equation.id, points, color, onEquationRuntimeStatus)
+                    }
+                    is com.prasad.mathgrapher.math.EquationType.Inequality -> {
+                        val segments = ImplicitSampler.sample(eqType.lhs, eqType.rhs, viewport, screenWidth, screenHeight)
+                        onEquationRuntimeStatus(equation.id, if (segments.isEmpty()) "No boundary found in the current view — try zooming out." else null)
+                        for (seg in segments) {
+                            drawLine(color = color, start = Offset(seg.x1, seg.y1), end = Offset(seg.x2, seg.y2), strokeWidth = 2.dp.toPx())
+                        }
+                    }
+                    null -> {
+                        val ast = equation.ast ?: continue
+                        val points = CurveSampler.sample(ast, viewport, screenWidth, screenHeight)
+                        drawCurveOrReportEmpty(equation.id, points, color, onEquationRuntimeStatus)
                     }
                 }
-                is com.prasad.mathgrapher.math.EquationType.Parametric -> {
-                    val points = ParametricSampler.sample(eqType.xExpr, eqType.yExpr, eqType.tMin, eqType.tMax, viewport, screenWidth, screenHeight)
-                    if (points.isNotEmpty()) drawCurve(points, color)
-                }
-                is com.prasad.mathgrapher.math.EquationType.Polar -> {
-                    val points = PolarSampler.sample(eqType.rExpr, eqType.thetaMin, eqType.thetaMax, viewport, screenWidth, screenHeight)
-                    if (points.isNotEmpty()) drawCurve(points, color)
-                }
-                is com.prasad.mathgrapher.math.EquationType.Inequality -> {
-                    // Draw the boundary curve as implicit
-                    val segments = ImplicitSampler.sample(eqType.lhs, eqType.rhs, viewport, screenWidth, screenHeight)
-                    for (seg in segments) {
-                        drawLine(
-                            color = color,
-                            start = Offset(seg.x1, seg.y1),
-                            end = Offset(seg.x2, seg.y2),
-                            strokeWidth = 2.dp.toPx()
-                        )
-                    }
-                }
-                null -> {
-                    // Fallback: try legacy ast field
-                    val ast = equation.ast ?: continue
-                    val points = CurveSampler.sample(ast, viewport, screenWidth, screenHeight)
-                    if (points.isNotEmpty()) drawCurve(points, color)
-                }
+            } catch (t: Throwable) {
+                onEquationRuntimeStatus(
+                    equation.id,
+                    "Couldn't graph this: ${t.message ?: t.javaClass.simpleName}"
+                )
             }
         }
 
@@ -236,13 +237,33 @@ fun GraphCanvas(
 
             drawIntoCanvas { canvas ->
                 val text = String.format(Locale.US, "(%.2f, %.2f)", worldX, worldY)
-                val paint = Paint().apply {
-                    color = android.graphics.Color.BLACK
+                val pointHaloPaint = Paint().apply {
+                    val bg = mathColors.surfaceElevated
+                    color = android.graphics.Color.argb(
+                        220,
+                        (bg.red * 255).toInt(),
+                        (bg.green * 255).toInt(),
+                        (bg.blue * 255).toInt()
+                    )
+                    textSize = 36f
+                    isAntiAlias = true
+                    textAlign = Paint.Align.CENTER
+                    style = Paint.Style.STROKE
+                    strokeWidth = 10f
+                }
+                val pointTextPaint = Paint().apply {
+                    color = android.graphics.Color.argb(
+                        255,
+                        (textColor.red * 255).toInt(),
+                        (textColor.green * 255).toInt(),
+                        (textColor.blue * 255).toInt()
+                    )
                     textSize = 36f
                     isAntiAlias = true
                     textAlign = Paint.Align.CENTER
                 }
-                canvas.nativeCanvas.drawText(text, sx, sy - 20f, paint)
+                canvas.nativeCanvas.drawText(text, sx, sy - 20f, pointHaloPaint)
+                canvas.nativeCanvas.drawText(text, sx, sy - 20f, pointTextPaint)
             }
         }
     }
@@ -303,5 +324,24 @@ private fun formatLabel(value: Double): String {
         value.toLong().toString()
     } else {
         String.format(Locale.US, "%.1f", value)
+    }
+}
+
+private fun DrawScope.drawCurveOrReportEmpty(
+    id: Int,
+    points: List<SamplePoint>,
+    color: Color,
+    onStatus: (Int, String?) -> Unit
+) {
+    if (points.isEmpty()) {
+        onStatus(id, "No points to draw.")
+        return
+    }
+    val anyValid = points.any { it.isValid }
+    if (!anyValid) {
+        onStatus(id, "This equation has no visible points here — check for things like square roots of negative numbers, or try zooming out.")
+    } else {
+        onStatus(id, null)
+        drawCurve(points, color)
     }
 }
