@@ -1,54 +1,101 @@
-# Math Grapher 📈
+# Math Grapher 📈 (Drawmath)
 
-Drawmath is a modern mathematical graphing app built to make exploring mathematics simple, visual, and interactive. It combines a clean Android interface with a powerful graphing engine for plotting equations and understanding mathematical concepts visually.
-The project is independently developed with a focus on simplicity, performance, privacy, and learning. It also includes secure cloud authentication and profile synchronization, allowing users to safely access their account across sessions.
-Created by Prasad Dhodamani
-An independent project built with curiosity, mathematics, and a lot of code.
+[![Android CI](https://github.com/prasad/Drawmath/actions/workflows/ci.yml/badge.svg)](https://github.com/prasad/Drawmath/actions/workflows/ci.yml)
+**Version:** `v1.7.5`
 
-## 🚀 Features
+Drawmath is a modern mathematical graphing application for Android designed to make exploring mathematics intuitive, visual, and interactive. It couples an ultra-fast custom math engine with a fluid Jetpack Compose UI for plotting explicit, implicit, parametric, and polar equations, inequalities, and complex functions.
 
-*   **Universal Equation Support**: Graph explicit (`y=...`), implicit (`x^2+y^2=25`), parametric (`x=cos(t), y=sin(t)`), polar (`r=sin(theta)`), and inequalities (`y > x^2`) seamlessly.
-*   **Interactive Graphing**: Pan and zoom around the coordinate plane seamlessly.
-*   **Live Syntax Highlighting & Preview**: Real-time math notation preview and color-coded syntax highlighting as you type.
-*   **Custom Math Engine**: Parses and evaluates expressions natively, handling advanced scenarios like implicit multiplication, negative odd roots, and both Radians/Degrees modes.
-*   **Multiple Equations**: Graph multiple functions simultaneously with a scrollable chip list and color-coded curves.
-*   **Modern UI**: Sleek, dark-first professional interface with smooth animations, dynamic keyboard padding, and beautiful grid/axis rendering.
+The project is independently developed with an emphasis on simplicity, privacy, performance, and mathematical elegance. It also includes secure Firebase authentication and cloud profile synchronization to save user configurations across devices.
+
+Created by **Prasad Dhodamani** — an independent project built with curiosity, mathematics, and code.
+
+---
+
+## 📸 Screenshots
+
+| Single Parabola Graph | Multi-Equation View |
+| :---: | :---: |
+| ![Single parabola graph (y = x² - 3)](screenshots/single_graph.jpg) | ![Multi-equation view with sin, quadratic, and cubic](screenshots/multi_equations.jpg) |
+| *Single parabola graph ($y = x^2 - 3$)* | *Multi-equation view with sine, quadratic, and cubic* |
+
+| Cubic Function Graph | Complex Equations |
+| :---: | :---: |
+| ![Cubic function graph (x³ - 3x)](screenshots/cubic_function.jpg) | ![Complex equations (polynomial + trig products)](screenshots/complex_equations.jpg) |
+| *Cubic function graph ($x^3 - 3x$)* | *Complex equations (polynomial + trig products)* |
+
+---
+
+## 🚀 Key Features
+
+*   **Universal Equation Engine**: Plot explicit ($y = f(x)$), implicit ($x^2 + y^2 = 25$), parametric ($x = \cos(t), y = \sin(t)$), polar ($r = \sin(\theta)$), and inequalities ($y > x^2$) seamlessly without manual mode switching.
+*   **High-Precision Custom Parser**: Built-in expression evaluation handles implicit multiplication, nested functions, negative odd roots (e.g. $x^{1/3}$), and both Radians and Degrees angle modes.
+*   **Interactive Infinite Plane**: Smooth gesture-based panning, pinch-to-zoom, dynamic grid scaling, translucent axis halos, and coordinate coordinate readouts.
+*   **Live Syntax Highlighting & Preview**: Real-time math syntax formatting as you type and an instant mathematical preview strip.
+*   **Multi-Function Plotting**: Graph multiple equations concurrently with color-coded curves and dynamic equation chips.
+*   **Modern Glassmorphic UI**: Jetpack Compose Material 3 dark-first interface with fluid animations, dynamic keyboard padding, and responsive bottom sheets.
+*   **Cloud Sync & Authentication**: Optional Google Sign-In with Firebase Auth and Cloud Firestore sync for user profiles.
+
+---
+
+## 🛠️ Building from Source
+
+### Prerequisites
+*   **JDK 17** (e.g., Eclipse Temurin 17)
+*   **Android SDK** (API 34 compileSdk / targetSdk, API 26 minSdk)
+*   Gradle 8.x / 9.x (wrapper included)
+
+### Setup & Firebase Configuration
+For Firebase Auth and Firestore features, place your `google-services.json` inside the `app/` directory:
+```bash
+cp /path/to/your/google-services.json app/
+```
+*(Note: `google-services.json` is ignored by git to protect credentials. A dummy file can be used for offline unit testing).*
+
+### Build Commands
+```bash
+# Grant execution permissions
+chmod +x gradlew
+
+# Run unit tests (math engine & parser)
+./gradlew test
+
+# Run Android lint checks
+./gradlew lint
+
+# Build debug APK
+./gradlew assembleDebug
+
+# Complete assemble and verification
+./gradlew build
+```
+Built APKs will be located at `app/build/outputs/apk/debug/app-debug.apk`.
+
+---
 
 ## 📥 Download Versions
 
-You can find all versions of the APK in the [`releases/`](./releases) folder of this repository, or download the latest version (`v1.7.5`) to enjoy cloud synchronization and animated profiles.
+Prebuilt APKs are available in the [`releases/`](./releases) directory:
 
+*   **`v1.7.5` (Latest)**: Glassmorphic editable profiles, Coil image loading, Firestore cloud sync, animated sine-wave login background, and daily nudges.
+*   **`v1.6.0`**: Parametric $t$ detection fixes, dark mode label visibility, expanded dialogs, and robust runtime error handling.
+*   **`v1.5.0`**: Dual-input Parametric mode, graceful unbound parameter handling, negative odd root support ($x^{1/3}$), and Radian/Degree toggle.
+*   **`v1.4.0`**: Live math preview strip, syntax highlighting in input bar, LazyRow equation chips, dynamic keyboard padding, and translucent axis halos.
+*   **`v1.3.0`**: Universal Equation Support via Marching Squares for implicit equations, polar curves, and inequalities.
+*   **`v1.2.0`**: Edge-to-edge layout, bounded graph clipping, negative grid scaling, and dark theme polish.
+*   **`v1.1.0`**: Bottom sheet controls, side zoom controls, and updated color hierarchy.
+*   **`v1.0.0`**: Initial release.
 
+*To install, download the APK file to your Android device and open it. Ensure "Install from unknown sources" is enabled in your device settings.*
 
-*   **v1.7.5**: Added glassmorphic editable profiles, Coil image loading, Firestore cloud sync, animated mathematical sine-wave login background, and daily nudges.
-
-*   **v1.6.0**: UI improvements, bug fixes for parametric `t` detection, dark mode label visibility, expanded dialogs, and robust runtime error handling for equations.
-
-*   **v1.5.0**: Massive robustness update! Added a dedicated dual-input Parametric mode, gracefully handles unknown parameters as `1.0`, supports negative odd roots (e.g. `x^(1/3)`), and adds a Radians/Degrees angle toggle.
-
-*   **v1.4.0**: Complete UI Redesign! Added live math preview strip, live syntax highlighting in the input bar, horizontal scrollable equation chips, keyboard padding fixes, and translucent halos for axis labels.
-
-*   **v1.3.0**: Universal Equation Support! Introduced Marching Squares for implicit equations, parametric curves, polar functions, and inequalities without needing to switch modes manually.
-
-*   **v1.2.0**: The polished version featuring an edge-to-edge UI, fixed graph bounds clipping, proper negative grid scaling, and an updated professional dark theme with About/Credits dialogs.
-
-*   **v1.1.0**: The major UI overhaul implementing a bottom sheet, side vertical zoom controls, and a new color hierarchy.
-
-*   **v1.0.0 (fixed)**: The original functional release.
-
-
-
-*To install, simply download the APK file to your Android device and open it. Ensure you have "Install from unknown sources" enabled in your device settings.*
-
-
+---
 
 ## 📄 License
 
 This software is released under a Custom Proprietary License.
 
-*   **Use:** You are free to use this application for personal, non-commercial purposes.
-*   **Commercial Use:** Commercial use, distribution for profit, or selling this application is **STRICTLY PROHIBITED** unless you have explicitly purchased a Commercial License from Prasad Dhodamani.
-*   **No Modifications:** You may NOT edit, modify, reverse-engineer, or create derivative works from this source code.
-*   **Attribution:** You must provide proper credits to the original developer (Prasad Dhodamani) when showcasing or sharing this application.
+*   **Use:** Free for personal, non-commercial educational purposes.
+*   **Commercial Use:** Commercial distribution or sale is **STRICTLY PROHIBITED** without an explicit Commercial License from Prasad Dhodamani.
+*   **No Modifications:** You may NOT redistribute modified forks or derivative works.
+*   **Attribution:** Provide proper attribution to Prasad Dhodamani when showcasing or reviewing this software.
 
-For more details, see the [LICENSE](./LICENSE) file.
+See the [LICENSE](./LICENSE) file for complete terms.

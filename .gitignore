@@ -1,1 +1,60 @@
+# Built application files
+*.apk
+*.aar
+*.aab
+
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated build output directories
+build/
+app/build/
+**/build/
+bin/
+gen/
+out/
+
+# Gradle files
+.gradle/
+buildOutputCleanup/
+
+# Kotlin
+.kotlin/
+*.kotlin_module
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Keystore files
+*.jks
+*.keystore
+
+# Google Services (Firebase API keys & credentials)
+google-services.json
+**/google-services.json
 app/google-services.json
+
+# Release APKs / artifacts
+releases/
+
+# Log Files
+*.log
+
+# Proguard / R8
+proguard/
+
+# Android Studio / IntelliJ IDEA
+.idea/
+*.iml
+.shelf/
+
+# Android Studio Navigation / Captures
+.navigation/
+captures/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
